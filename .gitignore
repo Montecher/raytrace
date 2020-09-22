@@ -1,2 +1,5 @@
 build/*.o
 out/raytrace
+
+.idea/
+Makefile.deps
