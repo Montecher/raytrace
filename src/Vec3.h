@@ -31,11 +31,10 @@ public:
     Vec3 operator /= (double);
 
     double hypot() const;
+    Vec3 normal() const;
 
     friend std::ostream& operator << (std::ostream&, const Vec3&);
     //friend std::istream& operator >> (std::istream&, Vec3&);
-
-//friend Mat3::operator* (const Vec3&);
 };
 
 #endif //RAYTRACE_VEC3_H

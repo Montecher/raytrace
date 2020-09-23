@@ -14,7 +14,6 @@ Vec3::Vec3(double x, double y, double z) {
     this->z = z;
 }
 
-
 // Vector x Vector operations
 Vec3 Vec3::operator+(const Vec3& vec3) const {
     return {x + vec3.x, y + vec3.y, z + vec3.z};
@@ -64,6 +63,11 @@ Vec3 Vec3::operator/=(const double scalar) {
 
 double Vec3::hypot() const {
     return std::sqrt(x*x + y*y + z*z);
+}
+
+Vec3 Vec3::normal() const {
+    double norm = this->hypot();
+    return *this / norm;
 }
 
 std::ostream& operator<<(std::ostream& output, const Vec3& vec3){
