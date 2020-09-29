@@ -1,5 +1,5 @@
 import type, typename, sametype from require 'classes'
-import sqrt from math
+import sqrt, acos from math
 
 class Vec3
 	new: (@x=0, @y=0, @z=0) =>
@@ -26,8 +26,12 @@ class Vec3
 			error "attempt to use * on #{typename @} and #{typename o}"
 
 	__div: (o) =>
-		error "attempt to use / on #{typename @} and #{typename o}" unless (type @) == Vec3 and (type o) == 'number'
-		@@ @x/o, @y/o, @z/o
+		if sametype @, o
+			@x*o.x + @y*o.y + @z*o.z
+		elseif (type @) == Vec3 and (type o) == 'number'
+			@@ @x/o, @y/o, @z/o
+		else
+			error "attempt to use / on #{typename @} and #{typename o}"
 
 	__tostring: =>
 		"(#{@x}, #{@y}, #{@z})"
@@ -38,6 +42,11 @@ class Vec3
 
 	normal: =>
 		@ / @norm!
+
+	angleto: (o) =>
+		snorm = @norm!
+		onorm = o\norm!
+		acos (@/o) / (snorm * onorm)
 
 	@x: @ 1, 0, 0
 	@y: @ 0, 1, 0

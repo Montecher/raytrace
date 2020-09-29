@@ -44,7 +44,39 @@ class Camera
 	renderstring: (scene, mx, my) =>
 		pixels = @render scene, mx, my
 		str = ''
+
+		sizes = {
+			[4]: (string.char 0xe2, 0x96, 0x91)
+			[3]: (string.char 0xe2, 0x96, 0x92)
+			[2]: (string.char 0xe2, 0x96, 0x93)
+			[1]: (string.char 0xe2, 0x96, 0x88)
+		}
+
+		mindist, maxdist = do
+			m, M = math.huge, 0
+			for r in *pixels
+				for p in *r
+					if p
+						m = p.dist if p.dist<m
+						M = p.dist if p.dist>M
+			m, M
+
+		getchar = (angle, dist) ->
+			size = math.floor (dist-mindist)/(maxdist-mindist) * 3 + 1
+			size = 4 if size>4
+			size = 1 if size<1
+			color = math.floor angle/math.pi * 255
+			"#{string.char 0x1b}[38;2;#{color};255;255m#{sizes[size]}"
+
 		for y=1, my
 			str ..= '\n' if y!=1
-			str ..= pixels[y][x] and 'X' or ' ' for x=1, mx
+			for x=1, mx
+				pixel = pixels[y][x]
+				if pixel
+					import dist, point, normal, object from pixels[y][x]
+					angle = (point - @orig)\angleto normal
+					str ..= getchar angle, dist
+				else
+					str ..= ' '
+		str ..= "#{string.char 0x1b}[0m"
 		str
