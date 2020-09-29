@@ -34,7 +34,7 @@ class Camera
 			dist, point, normal = ray\intersect object
 			if dist
 				insert intersections, {:dist, :point, :normal, :object}
-		sort intersections, (a, b) -> a.dist - b.dist
+		sort intersections, (a, b) -> a.dist < b.dist
 
 		intersections[1]
 
