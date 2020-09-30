@@ -1,7 +1,3 @@
-//
-// Created by ara0n on 9/17/20.
-//
-
 #include <iostream>
 #include "Sphere.h"
 #include "Vec3.h"
@@ -21,12 +17,8 @@ Sphere::Sphere(double x, double y, double z, double radius) {
     this->radius = radius;
 }
 
-void Sphere::info() {
-    std::cout << "coordinates of the center of the sphere: " << center << std::endl;
-    std::cout << "radius: " << radius << std::endl;
-}
+Sphere::~Sphere() noexcept {}
 
-std::ostream& operator<<(std::ostream& output, const Sphere& sphere){
-    output << "center: " << sphere.center << " radius: " << sphere.radius;
-    return output;
+double Sphere::distance_to(const Vec3& point) const {
+    return (center - point).hypot() - radius;
 }

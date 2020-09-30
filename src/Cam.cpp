@@ -1,33 +1,57 @@
 #include "Cam.h"
+#include "constants.h"
 
 Cam::Cam() {
-    this->center = Vec3();
-    this->dir = Vec3(1.0, 0.0, 0.0);
-    this->right = Vec3(0.0, 0.0, 1.0);
+    this->orig = Vec3::O;
+    this->dir = Vec3::X;
+    this->right = Vec3::Y;
+    this->up = Vec3::Z;
+
+    this->width = 1;
+    this->height = 1;
 }
 
-Cam::Cam(const Vec3& center, const Vec3& dir, const Vec3& right, double fovW, double fovH) {
-    this->center = center;
+Cam::Cam(Vec3 orig, Vec3 dir, const Vec3& right, double width, double height) {
+    this->orig = orig;
     this->dir = dir;
     this->right = right.normal();
-    this->fovW = fovW;
-    this->fovH = fovH;
+    this->up = (dir ^ right).normal();
+
+    this->width = width;
+    this->height = height;
 }
 
-void Cam::setCenter(const Vec3& center) {
-    this->center = center;
+bool Cam::get_pixel(std::vector<Object*> scene, int x, int y, int w, int h, double* t, Vec3* impact, Vec3* normal) const {
+    Ray ray = this->ray(x, y, w, h);
+    bool hit = false;
+    *t = MAX_DIST;
+
+    for (auto obj: scene) {
+        hit |= ray.intersect(obj, t, impact, normal);
+    }
+    return hit;
 }
 
-void Cam::setDir(const Vec3& dir, const Vec3& right) {
-    this->dir = dir;
-    this->right = right;
-}
+std::string Cam::render_string(std::vector<Object*> scene, int w, int h) {
+    std::string render = "";
 
-Ray Cam::getRay(int x, int y, int maxX, int maxY) {
-   double left = this->fovW * ( ( x / (double)(maxX-1) ) - 0.5 );
-   double top = this->fovH * ( ( y / (double)(maxY-1) ) - 0.5 );
-   Vec3 up = (this->dir * this->right).normal();
+    for (int y = 0; y < h; y++) {
+        if (y != 0) {
+            render += "\n";
+        }
 
-   Vec3 dir = (this->dir + this->right * -left + up * top).normal();
-   return Ray(this->center, dir);
+        for (int x = 0; x < w; x++) {
+            double t;
+            Vec3 impact, normal;
+            bool hit = get_pixel(scene, x, y, w, h, &t, &impact, &normal);
+
+            if (hit) {
+                render += "\xe2\x96\x88";
+            } else {
+                render += " ";
+            }
+        }
+    }
+
+    return render;
 }
