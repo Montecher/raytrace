@@ -35,9 +35,9 @@ rgb_color hsv_to_rgb(hsv_color& hsv) {
     }
 
     return {
-        r: (char) ((r+m) * 255),
-        g: (char) ((g+m) * 255),
-        b: (char) ((b+m) * 255)
+        r: (unsigned char) ((r+m) * 255),
+        g: (unsigned char) ((g+m) * 255),
+        b: (unsigned char) ((b+m) * 255)
     };
 }
 
