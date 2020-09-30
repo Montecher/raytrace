@@ -29,5 +29,41 @@ public:
     virtual double distance_to(const Vec3&) const;
 };
 
+class Union: public Object {
+protected:
+    const Object* obj1;
+    const Object* obj2;
+
+public:
+//    Union(const Object...);
+    ~Union();
+    Union(const Object*, const Object*);
+
+    virtual double distance_to(const Vec3&) const;
+};
+
+class Negation: public Object {
+protected:
+    const Object* obj;
+
+public:
+    ~Negation();
+    Negation(const Object*);
+
+    virtual double distance_to(const Vec3&) const;
+};
+
+class Exclusion: public Object {
+protected:
+    const Object* obj1;
+    const Object* obj2;
+
+public:
+    ~Exclusion();
+    Exclusion(const Object*, const Object*);
+
+    virtual double distance_to(const Vec3&) const;
+};
+
 
 #endif //RAYTRACE_OBJECT_H

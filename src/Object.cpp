@@ -38,3 +38,46 @@ Intersection::~Intersection() {
 double Intersection::distance_to(const Vec3& point) const {
     return std::max(obj1->distance_to(point), obj2->distance_to(point));
 }
+
+// Union section
+Union::Union(const Object* obj1, const Object* obj2) {
+    this->obj1 = obj1;
+    this->obj2 = obj2;
+}
+
+Union::~Union() {
+    delete this->obj1;
+    delete this->obj2;
+}
+
+double Union::distance_to(const Vec3& point) const {
+    return std::min(obj1->distance_to(point), obj2->distance_to(point));
+}
+
+// Negation section
+Negation::Negation(const Object* obj) {
+    this->obj = obj;
+}
+
+Negation::~Negation() {
+    delete this->obj;
+}
+
+double Negation::distance_to(const Vec3& point) const {
+    return -obj->distance_to(point);
+}
+
+// Exclusion section
+Exclusion::Exclusion(const Object* obj1, const Object* obj2) {
+    this->obj1 = obj1;
+    this->obj2 = obj2;
+}
+
+Exclusion::~Exclusion() {
+    delete this->obj1;
+    delete this->obj2;
+}
+
+double Exclusion::distance_to(const Vec3& point) const {
+    return std::max(obj1->distance_to(point), -obj2->distance_to(point));
+}
