@@ -18,8 +18,8 @@ class Camera
 		"Camera orig: #{@orig}, dir: #{@dir}, right: #{@right}, up: #{@up}, width: #{@width}, height: #{@height}"
 
 	ray: (x, y, mx, my, w=1, h=1) =>
-		x = (x / (mx - 1) - .5) / w * @width
-		y = (y / (my - 1) - .5) / h * @height
+		x = (x / (mx - 1) - .5) * w * @width
+		y = (y / (my - 1) - .5) * h * @height
 		dir = (@dir + @right * x - @up * y)\normal!
 		Ray @orig, dir
 

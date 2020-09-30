@@ -10,7 +10,7 @@ scene = {
 }
 camera = Camera!
 
-print camera\renderstring scene, 100-19, 60
+print camera\renderstring scene, 100, 60
 print camera\ray 0, 0, 100, 100
 print camera\ray 0, 99, 100, 100
 print camera\ray 99, 0, 100, 100
