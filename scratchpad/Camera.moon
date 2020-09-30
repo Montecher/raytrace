@@ -56,17 +56,32 @@ class Camera
 			m, M = math.huge, 0
 			for r in *pixels
 				for p in *r
-					if p
+					if p and (typename p.object)!='Plane'
 						m = p.dist if p.dist<m
 						M = p.dist if p.dist>M
 			m, M
 
-		getchar = (angle, dist) ->
-			size = math.floor (dist-mindist)/(maxdist-mindist) * 3 + 1
-			size = 4 if size>4
-			size = 1 if size<1
-			color = math.floor angle/math.pi * 255
-			"#{string.char 0x1b}[38;2;#{color};255;255m#{sizes[size]}"
+		getchar = (angle, dist, object) ->
+			shape = typename object
+			char = do
+				if shape!='Plane'
+					size = math.floor (dist-mindist)/(maxdist-mindist) * 3 + 1
+					size = 4 if size>4
+					size = 1 if size<1
+					sizes[size]
+				else
+					sizes[1]
+			red = math.floor angle/math.pi * 255
+			green = do
+				name = typename object
+				if name=='Plane'
+					0
+				elseif name=='Sphere'
+					255
+				else
+					print name
+					127
+			"#{string.char 0x1b}[38;2;#{red};#{green};255m#{char}"
 
 		for y=1, my
 			str ..= '\n' if y!=1
@@ -75,7 +90,7 @@ class Camera
 				if pixel
 					import dist, point, normal, object from pixels[y][x]
 					angle = (point - @orig)\angleto normal
-					str ..= getchar angle, dist
+					str ..= getchar angle, dist, object
 				else
 					str ..= ' '
 		str ..= "#{string.char 0x1b}[0m"
