@@ -17,8 +17,12 @@ Sphere::Sphere(double x, double y, double z, double radius) {
     this->radius = radius;
 }
 
-Sphere::~Sphere() noexcept {}
+Sphere::~Sphere() {}
 
 double Sphere::distance_to(const Vec3& point) const {
     return (center - point).hypot() - radius;
+}
+
+Vec3 Sphere::normal_at(const Vec3& point) const {
+    return (point - center).normal();
 }
