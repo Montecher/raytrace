@@ -7,6 +7,7 @@
 #include "Sphere.h"
 #include "Ray.h"
 #include "Cam.h"
+#include "Plane.h"
 
 #include <vector>
 
@@ -16,9 +17,11 @@ int main(){
 
     Sphere s1 = Sphere(4, 0, 0, 1);
     Sphere s2 = Sphere(3, 1, 1, 0.5);
+    Plane navion = Plane(0, -1, 1, 3);
     vector<Object*> scene;
     scene.push_back(&s1);
     scene.push_back(&s2);
+    scene.push_back(&navion);
 
     Cam cam = Cam();
 
