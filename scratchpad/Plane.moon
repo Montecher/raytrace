@@ -7,10 +7,14 @@ class Plane extends Object
 		error "normalvec should be a Vec3, got #{typename @normalvec}" unless (type @normalvec) == Vec3
 		error "offset should be a number, got #{typename @offset}" unless (type @offset) == 'number'
 
+		norm = @normalvec\norm!
+		@normalvec /= norm
+		@offset /= norm
+
 	__tostring: => "Plane(normalvec: #{@normalvec}, offset: #{@offset})"
 
 	_distanceto: (o) =>
-		(o/@normalvec + @offset) / @normalvec\norm!
+		o/@normalvec + @offset
 
 	normal: (o) =>
 		@normalvec
