@@ -67,3 +67,34 @@ std::string Cam::render_string(std::vector<Object*> scene, int w, int h) {
 
     return render;
 }
+
+std::string Cam::render_raw(std::vector<Object*> scene, int w, int h) {
+    std::string render = "";
+
+    for (int y = 0; y < h; y++) {
+        for (int x = 0; x < w; x++) {
+            double t;
+            Vec3 impact, normal;
+            bool hit = get_pixel(scene, x, y, w, h, &t, &impact, &normal);
+
+            if (hit) {
+                double angle = (orig - impact).angle_to(normal);
+                hsv_color hsv = {
+                    h: angle * 360 / std::acos(-1),
+                    s: angle / std::acos(-1),
+                    v: std::min(1., 10 / (t*t))
+                };
+                rgb_color rgb = hsv_to_rgb(hsv);
+                render += (char) rgb.r;
+                render += (char) rgb.g;
+                render += (char) rgb.b;
+            } else {
+                render += (char) 0;
+                render += (char) 0;
+                render += (char) 0;
+            }
+        }
+    }
+
+    return render;
+}

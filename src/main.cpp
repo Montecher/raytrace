@@ -25,7 +25,7 @@ int main(){
 
     Cam cam = Cam();
 
-    cout << cam.render_string(scene, 100, 100) << endl;
+    cout << cam.render_raw(scene, 800, 800);
 
     return 0;
 }
