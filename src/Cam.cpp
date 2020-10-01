@@ -69,7 +69,7 @@ std::string Cam::render_string(std::vector<Object*> scene, int w, int h) {
 }
 
 std::string Cam::render_raw(std::vector<Object*> scene, int w, int h) {
-    std::string render = "";
+    std::string render = std::string(w*h*3, (char) 0);
 
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
@@ -85,13 +85,11 @@ std::string Cam::render_raw(std::vector<Object*> scene, int w, int h) {
                     v: std::min(1., 10 / (t*t))
                 };
                 rgb_color rgb = hsv_to_rgb(hsv);
-                render += (char) rgb.r;
-                render += (char) rgb.g;
-                render += (char) rgb.b;
+                render[3*(y*w+x)] = (char) rgb.r;
+                render[3*(y*w+x)+1] = (char) rgb.g;
+                render[3*(y*w+x)+2] = (char) rgb.b;
             } else {
-                render += (char) 0;
-                render += (char) 0;
-                render += (char) 0;
+                // nothing
             }
         }
     }

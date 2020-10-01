@@ -6,7 +6,7 @@ CPP = g++
 LD = g++
 RM = rm -f
 
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -O2
 LDFLAGS =
 LIBS =
 
