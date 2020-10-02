@@ -17,6 +17,11 @@ public:
     Vec3(double x, double y, double z);
     // the destructor is implicit
 
+    // getters for the coordinates
+    double get_x() const;
+    double get_y() const;
+    double get_z() const;
+
     // Vector x Vector operations
     // = operator is implicit
     Vec3 operator + (const Vec3&) const;
@@ -46,6 +51,20 @@ public:
     friend std::ostream& operator << (std::ostream&, const Vec3&);
     //friend std::istream& operator >> (std::istream&, Vec3&);
 };
+
+// getters for the coordinates
+inline double Vec3::get_x() const {
+    return x;
+}
+
+inline double Vec3::get_y() const {
+    return y;
+}
+
+inline double Vec3::get_z() const {
+    return z;
+}
+
 
 // Vector x Vector operations
 inline Vec3 Vec3::operator+(const Vec3& vec3) const {

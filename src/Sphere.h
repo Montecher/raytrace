@@ -1,9 +1,6 @@
 #ifndef RAYTRACE_SPHERE_H
 #define RAYTRACE_SPHERE_H
 
-#include <iostream>
-#include "Vec3.h"
-#include "Ray.h"
 #include "Object.h"
 
 class Sphere: public Object {
