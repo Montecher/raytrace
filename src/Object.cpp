@@ -3,12 +3,6 @@
 #include <cmath>
 
 
-// Object section
-//double Object::distance_to(const Vec3 &) const {
-//    std::cout << "wsh" << std::endl;
-//    return INFINITY;
-//}
-
 Vec3 Object::normal_at(const Vec3& point) const {
     double v, x, y, z;
 
@@ -21,13 +15,19 @@ Vec3 Object::normal_at(const Vec3& point) const {
 }
 
 
-// Intersection section
-//Intersection::Intersection(const Object objects...) {
-//    this->elements = std::vector<Object>(objects...);
-//}
 Intersection::Intersection(const Object* obj1, const Object* obj2) {
     this->obj1 = obj1;
     this->obj2 = obj2;
+}
+
+Intersection::Intersection(const Object* obj1, const Object* obj2, const Object* obj3) {
+    this->obj1 = Intersection(obj1, obj2);
+    this->obj2 = obj3;
+}
+
+Intersection::Intersection(const Object* obj1, const Object* obj2, const Object* obj3, const Object* obj4) {
+    this->obj1 = Intersection(obj1, obj2);
+    this->obj2 = Intersection(obj3, obj4);
 }
 
 Intersection::~Intersection() {
@@ -43,6 +43,16 @@ double Intersection::distance_to(const Vec3& point) const {
 Union::Union(const Object* obj1, const Object* obj2) {
     this->obj1 = obj1;
     this->obj2 = obj2;
+}
+
+Union::Union(const Object* obj1, const Object* obj2, const Object* obj3) {
+    this->obj1 = Union(obj1, obj2);
+    this->obj2 = obj3;
+}
+
+Union::Union(const Object* obj1, const Object* obj2, const Object* obj3, const Object* obj4) {
+    this->obj1 = Union(obj1, obj2);
+    this->obj2 = Union(obj3, obj4);
 }
 
 Union::~Union() {

@@ -25,6 +25,8 @@ public:
 //    Intersection(const Object...);
     ~Intersection();
     Intersection(const Object*, const Object*);
+    Intersection(const Object*, const Object*, const Object*);
+    Intersection(const Object*, const Object*, const Object*, const Object*);
 
     virtual double distance_to(const Vec3&) const;
 };
@@ -38,6 +40,8 @@ public:
 //    Union(const Object...);
     ~Union();
     Union(const Object*, const Object*);
+    Union(const Object*, const Object*, const Object*);
+    Union(const Object*, const Object*, const Object*, const Object*);
 
     virtual double distance_to(const Vec3&) const;
 };
