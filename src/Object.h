@@ -12,6 +12,7 @@ public:
     virtual ~Object() {};
     virtual double distance_to(const Vec3&) const = 0;
     virtual Vec3 normal_at(const Vec3&) const;
+    virtual const Object* get_intersecting(const Vec3&) const;
 };
 
 
@@ -27,6 +28,7 @@ public:
     Intersection(const Object*, const Object*);
 
     virtual double distance_to(const Vec3&) const;
+    virtual const Object* get_intersecting(const Vec3&) const;
 };
 
 class Union: public Object {
@@ -40,6 +42,7 @@ public:
     Union(const Object*, const Object*);
 
     virtual double distance_to(const Vec3&) const;
+    virtual const Object* get_intersecting(const Vec3&) const;
 };
 
 class Negation: public Object {
@@ -51,6 +54,7 @@ public:
     Negation(const Object*);
 
     virtual double distance_to(const Vec3&) const;
+    virtual const Object* get_intersecting(const Vec3&) const;
 };
 
 class Exclusion: public Object {
@@ -63,6 +67,7 @@ public:
     Exclusion(const Object*, const Object*);
 
     virtual double distance_to(const Vec3&) const;
+    virtual const Object* get_intersecting(const Vec3&) const;
 };
 
 

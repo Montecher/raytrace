@@ -20,6 +20,10 @@ Vec3 Object::normal_at(const Vec3& point) const {
     return Vec3(x, y, z).normal();
 }
 
+const Object* Object::get_intersecting(const Vec3&) const {
+    return this;
+}
+
 
 // Intersection section
 //Intersection::Intersection(const Object objects...) {
@@ -39,6 +43,11 @@ double Intersection::distance_to(const Vec3& point) const {
     return std::max(obj1->distance_to(point), obj2->distance_to(point));
 }
 
+const Object* Intersection::get_intersecting(const Vec3& point) const {
+    const Object* intersecting = this->obj1->get_intersecting(point);
+    return intersecting ? intersecting : this->obj2;
+}
+
 // Union section
 Union::Union(const Object* obj1, const Object* obj2) {
     this->obj1 = obj1;
@@ -54,6 +63,10 @@ double Union::distance_to(const Vec3& point) const {
     return std::min(obj1->distance_to(point), obj2->distance_to(point));
 }
 
+const Object* Union::get_intersecting(const Vec3&) const {
+    return this->obj1;
+}
+
 // Negation section
 Negation::Negation(const Object* obj) {
     this->obj = obj;
@@ -65,6 +78,10 @@ Negation::~Negation() {
 
 double Negation::distance_to(const Vec3& point) const {
     return -obj->distance_to(point);
+}
+
+const Object* Negation::get_intersecting(const Vec3&) const {
+    return this->obj;
 }
 
 // Exclusion section
@@ -80,4 +97,8 @@ Exclusion::~Exclusion() {
 
 double Exclusion::distance_to(const Vec3& point) const {
     return std::max(obj1->distance_to(point), -obj2->distance_to(point));
+}
+
+const Object* Exclusion::get_intersecting(const Vec3&) const {
+    return this->obj1;
 }

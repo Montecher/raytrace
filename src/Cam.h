@@ -13,14 +13,14 @@ private:
     double width, height;
 
     Ray ray(int, int, int, int) const;
-    bool get_pixel(std::vector<Object*>, int, int, int, int, double*, Vec3*, Vec3*) const;
+    bool get_pixel(Object*, int, int, int, int, double*, Vec3*, Vec3*, const Object**) const;
 
 public:
     Cam();
     Cam(Vec3, Vec3, const Vec3&, double , double);
 
-    std::string render_string(std::vector<Object*>, int, int);
-    std::string render_raw(std::vector<Object*>, int, int);
+    std::string render_string(Object*, int, int);
+    std::string render_raw(Object*, int, int);
 };
 
 inline Ray Cam::ray(int x, int y, int w, int h) const {
