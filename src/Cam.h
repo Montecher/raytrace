@@ -4,6 +4,7 @@
 #include "Vec3.h"
 #include "Object.h"
 #include "Ray.h"
+#include "Image.h"
 #include <vector>
 #include <string>
 
@@ -19,8 +20,7 @@ public:
     Cam();
     Cam(Vec3, Vec3, const Vec3&, double , double);
 
-    std::string render_string(Object*, int, int);
-    std::string render_raw(Object*, int, int);
+    Image render(Object*, int, int);
 };
 
 inline Ray Cam::ray(int x, int y, int w, int h) const {

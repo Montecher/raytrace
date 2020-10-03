@@ -28,7 +28,9 @@ int main(){
 
     Cam cam = Cam(Vec3::Y, Vec3::X, Vec3::Y, 1, 1);
 
-    cout << cam.render_raw(scene, 1080, 1080);
+    Image img = cam.render(scene, 1080, 1080);
+
+    cout << img.to_bmp();
 
     return 0;
 }
