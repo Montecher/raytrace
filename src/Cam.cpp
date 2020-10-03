@@ -53,7 +53,7 @@ static rgb_color shade(Object* scene, Vec3 normal, Vec3 ray, Vec3 impact, double
 
     double angle = ray.angle_to(normal);
     hsv_color hsv = {
-        h: 90 - angle * 180 / pi,
+        h: 45 - angle * 180 / pi / 2,
         s: clamp(0., 1., angleToLight / pi),
         v: clamp(0., 1., 5 / (distToLight*distToLight))
     };
