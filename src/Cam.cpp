@@ -37,24 +37,27 @@ bool Cam::get_pixel(Object* scene, int x, int y, int w, int h, double* t, Vec3* 
 }
 
 #define pi std::acos(-1)
+inline double clamp(double min, double max, double val) {
+    return std::min(std::max(min, val), max);
+}
 static rgb_color shade(Object* scene, Vec3 normal, Vec3 ray, Vec3 impact, double dist, const Object* obj) {
-    static Vec3 lightsource = Vec3(0, -1, 1);
+    static Vec3 lightsource = Vec3(2, -1, -1);
     Ray rayToLight = Ray(lightsource, impact-lightsource);
-    double distToLight;
+    double distToLight = MAX_DIST;
     Vec3 normalToLight;
     Vec3 impactToLight;
-    rayToLight.intersect(scene, &distToLight, &normalToLight, &impactToLight);
+    rayToLight.intersect(scene, &distToLight, &impactToLight, &normalToLight);
     if(obj!=scene->get_intersecting(impactToLight)) return {0, 0, 0};
     double angleToLight = (lightsource-impact).angle_to(normal);
-    distToLight = (impactToLight-lightsource).hypot();
+    distToLight = (impactToLight-impact).hypot();
 
     double angle = ray.angle_to(normal);
     hsv_color hsv = {
         h: 90 - angle * 180 / pi,
-        s: std::min(1., angleToLight / pi),
-        v: std::min(1., 1 / (dist*dist) + 5 / angleToLight / (impactToLight-impact).hypot())
+        s: clamp(0., 1., angleToLight / pi),
+        v: clamp(0., 1., 5 / (distToLight*distToLight))
     };
-    return hsv_to_rgb(hsv);
+    return hsv_to_rgb(hsv);//*/
 }
 
 std::string Cam::render_string(Object* scene, int w, int h) {
