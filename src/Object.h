@@ -6,7 +6,6 @@
 #include "Vec3.h"
 
 
-// CAN'T BE VIRTUAL BUT NO TOUCH
 class Object {
 public:
     virtual ~Object() {};
@@ -23,9 +22,10 @@ protected:
     const Object* obj2;
 
 public:
-//    Intersection(const Object...);
     ~Intersection();
     Intersection(const Object*, const Object*);
+    Intersection(const Object*, const Object*, const Object*);
+    Intersection(const Object*, const Object*, const Object*, const Object*);
 
     virtual double distance_to(const Vec3&) const;
     virtual const Object* get_intersecting(const Vec3&) const;
@@ -37,9 +37,10 @@ protected:
     const Object* obj2;
 
 public:
-//    Union(const Object...);
     ~Union();
     Union(const Object*, const Object*);
+    Union(const Object*, const Object*, const Object*);
+    Union(const Object*, const Object*, const Object*, const Object*);
 
     virtual double distance_to(const Vec3&) const;
     virtual const Object* get_intersecting(const Vec3&) const;
@@ -65,6 +66,19 @@ protected:
 public:
     ~Exclusion();
     Exclusion(const Object*, const Object*);
+
+    virtual double distance_to(const Vec3&) const;
+    virtual const Object* get_intersecting(const Vec3&) const;
+};
+
+class Translation: public Object {
+protected:
+    const Object* obj;
+    Vec3 translate;
+
+public:
+    ~Translation();
+    Translation(const Object*, const Vec3);
 
     virtual double distance_to(const Vec3&) const;
     virtual const Object* get_intersecting(const Vec3&) const;
