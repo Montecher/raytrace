@@ -87,12 +87,11 @@ public:
 class Scaling: public Object {
 protected:
     const Object* obj;
-    Vec3 center;
     double factor;
 
 public:
     ~Scaling();
-    Scaling(const Object*, const Vec3&, const double);
+    Scaling(const Object*, const double);
 
     virtual double distance_to(const Vec3&) const;
     virtual const Object* get_intersecting(const Vec3&) const;
