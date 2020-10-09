@@ -2,6 +2,6 @@
 #define RAYTRACE_CONSTANTS_H
 
 #define EPSILON 0.0001
-#define MAX_DIST 1000.
+#define MAX_DIST 50.
 
 #endif //RAYTRACE_CONSTANTS_H
