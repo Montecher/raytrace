@@ -4,12 +4,9 @@
 #include "Plane.h"
 #include "Box.h"
 
-#include <vector>
-
 using namespace std;
 
-int main(){
-
+Object* scene1() {
     Sphere* s1 = new Sphere(4, 0, 0, 1);
     Sphere* s2 = new Sphere(3, 1, 1, 0.5);
     Plane* navion = new Plane(0, -1, 1, 3);
@@ -19,13 +16,28 @@ int main(){
     Exclusion* nope = new Exclusion(s1, new Sphere(3.75, .75, .75, 1));
 
     Object* walls = new Union(navion, backwall);
-    Object* spheres = new Union(new Scaling(nope, Vec3(4, 0, 0), 0.75), s2);
+    Object* spheres = new Union(new Scaling(nope, 0.75), s2);
 
     Object* scene = new Union(spheres, new Union(walls, decal));
 
+    return scene;
+}
+
+Object* scene2() {
+    Sphere* s1 = new Sphere();
+    Scaling* scaled = new Scaling(s1, 1);
+    Translation* moved = new Translation(scaled, Vec3(3, 1, 1));
+
+    return moved;
+}
+
+int main(){
+
+    Object* scene = scene1();
+
     Cam cam = Cam(Vec3::Y, Vec3::X, Vec3::Y, 1, 1);
 
-    cout << cam.render_raw(scene, 1080, 1080);
+    cout << cam.render_raw(scene, 480, 480);
 
     return 0;
 }
