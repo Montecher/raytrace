@@ -4,7 +4,7 @@
 
 Sphere::Sphere() {
     this->center = Vec3();
-    this->radius = 0;
+    this->radius = 1;
 }
 
 Sphere::Sphere(Vec3 vec3, double radius) {
