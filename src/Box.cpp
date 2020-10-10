@@ -1,8 +1,8 @@
 #include "Box.h"
 
 Box::Box() {
-    this->a = Vec3::O;
-    this->b = Vec3::O;
+    this->a = Vec3(-0.5, -0.5, -0.5);
+    this->b = Vec3(0.5, 0.5, 0.5);
 }
 
 Box::Box(Vec3 point) {

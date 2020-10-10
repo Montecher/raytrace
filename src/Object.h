@@ -84,5 +84,18 @@ public:
     virtual const Object* get_intersecting(const Vec3&) const;
 };
 
+class Scaling: public Object {
+protected:
+    const Object* obj;
+    double factor;
+
+public:
+    ~Scaling();
+    Scaling(const Object*, const double);
+
+    virtual double distance_to(const Vec3&) const;
+    virtual const Object* get_intersecting(const Vec3&) const;
+};
+
 
 #endif //RAYTRACE_OBJECT_H
