@@ -1,4 +1,4 @@
-.PHONY: all clean mrproper rebuild run
+.PHONY: all clean mrproper rebuild run png
 
 NAME = raytrace
 
@@ -33,6 +33,11 @@ rebuild:
 run: all
 	./$(BINARY)
 
+png: all
+	./$(BINARY) > /tmp/a.bmp
+	convert /tmp/a.bmp /tmp/a.png
+	push -d a.png || true
+	push /tmp/a.png
 
 include Makefile.deps
 Makefile.deps: $(SOURCES) $(HEADERS)
