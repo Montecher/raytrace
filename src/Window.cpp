@@ -28,7 +28,7 @@ Window::Window() : QWidget() {
     toggleRealistic->setCheckable(true);
     leftPane->addWidget(toggleRealistic, 2, 0);
 
-    camera = Cam(Vec3::Y, Vec3::X, Vec3::Y, 1, 1);
+    camera = Cam();
     image = new QImage(WIDTH, HEIGHT, QImage::Format_RGB888);
     label = new QLabel();
     label->setPixmap(QPixmap::fromImage(*image));
@@ -43,6 +43,7 @@ Window::Window() : QWidget() {
 }
 
 void Window::createImage() {
+    if(!scene) return;
     if (!toggleRealistic->isChecked()) {
         image->loadFromData(QByteArray::fromStdString(camera.render_shaded(scene, WIDTH, HEIGHT).to_bmp()), "BMP");
     } else {
@@ -56,7 +57,10 @@ void Window::test(int input) {
 }
 
 void Window::loadSCene(int sceneNb) {
-    if(scene) delete scene;
+    if(scene) {
+        delete scene;
+        scene = (Object*) 0;
+    }
     switch (sceneNb) {
         case 0:
             scene = SCENE::scene1();
@@ -67,8 +71,9 @@ void Window::loadSCene(int sceneNb) {
         case 2:
             scene = SCENE::scene3();
             break;
+        default:
+            return;
     }
-    camera = Cam();
     camera.setPos(Vec3::Z*3. - Vec3::X*5.);
     camera.setPointing(Vec3::O);
     createImage();
