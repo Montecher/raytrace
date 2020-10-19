@@ -1,6 +1,8 @@
 build/*.o
 build/*.cpp
+
 out/raytrace
+out/raytrace.*
 
 .idea/
 Makefile.deps

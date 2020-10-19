@@ -35,6 +35,7 @@ clean:
 	$(RM) build/?*.* # catch all renamed files
 mrproper: clean
 	$(RM) $(BINARY)
+	$(RM) out/$(NAME).bmp out/$(NAME).png
 
 rebuild:
 	@make mrproper
