@@ -28,6 +28,7 @@ public:
     Vec3 operator - (const Vec3&) const;
     Vec3 operator ^ (const Vec3&) const;
     double operator * (const Vec3&) const;
+    Vec3 mult(const Vec3&) const;
 
     Vec3 operator += (const Vec3&);
     Vec3 operator -= (const Vec3&);
@@ -81,6 +82,10 @@ inline Vec3 Vec3::operator^(const Vec3& vec3) const {
 
 inline double Vec3::operator*(const Vec3& vec3) const {
     return this->x * vec3.x + this->y * vec3.y + this->z * vec3.z;
+}
+
+inline Vec3 Vec3::mult(const Vec3& v) const {
+    return Vec3(x*v.x, y*v.y, z*v.z);
 }
 
 

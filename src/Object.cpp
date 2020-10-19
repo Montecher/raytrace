@@ -14,8 +14,8 @@ Vec3 Object::normal_at(const Vec3& point) const {
     return Vec3(x, y, z).normal();
 }
 
-const Object* Object::get_intersecting(const Vec3&) const {
-    return this;
+const Material* Object::get_intersecting(const Vec3&) const {
+    return &Material::white;
 }
 
 
@@ -43,9 +43,8 @@ double Intersection::distance_to(const Vec3& point) const {
     return std::max(obj1->distance_to(point), obj2->distance_to(point));
 }
 
-const Object* Intersection::get_intersecting(const Vec3& point) const {
-    const Object* intersecting = this->obj1->get_intersecting(point);
-    return intersecting ? intersecting : this->obj2;
+const Material* Intersection::get_intersecting(const Vec3& point) const {
+    return this->obj1->get_intersecting(point);
 }
 
 // Union section
@@ -73,8 +72,12 @@ double Union::distance_to(const Vec3& point) const {
     return std::min(obj1->distance_to(point), obj2->distance_to(point));
 }
 
-const Object* Union::get_intersecting(const Vec3&) const {
-    return this->obj1;
+//#include <iostream>
+//using namespace std;
+const Material* Union::get_intersecting(const Vec3& point) const {
+//    cerr << "get_intersecting(" << point << "), hits " << (this->obj2->distance_to(point) <=0 ? "obj2" : "obj1") << " = " << *(this->obj2->distance_to(point) <= 0 ? this->obj2->get_intersecting(point) : this->obj1->get_intersecting(point)) << endl;
+    if(this->obj2->distance_to(point) <= 0.) return this->obj2->get_intersecting(point);
+    return this->obj1->get_intersecting(point);
 }
 
 // Negation section
@@ -90,8 +93,8 @@ double Negation::distance_to(const Vec3& point) const {
     return -obj->distance_to(point);
 }
 
-const Object* Negation::get_intersecting(const Vec3&) const {
-    return this->obj;
+const Material* Negation::get_intersecting(const Vec3& point) const {
+    return this->obj->get_intersecting(point);
 }
 
 // Exclusion section
@@ -109,8 +112,8 @@ double Exclusion::distance_to(const Vec3& point) const {
     return std::max(obj1->distance_to(point), -obj2->distance_to(point));
 }
 
-const Object* Exclusion::get_intersecting(const Vec3&) const {
-    return this->obj1;
+const Material* Exclusion::get_intersecting(const Vec3& point) const {
+    return this->obj1->get_intersecting(point);
 }
 
 Translation::Translation(const Object* obj, const Vec3 translate) {
@@ -126,8 +129,8 @@ double Translation::distance_to(const Vec3& point) const {
     return obj->distance_to(point - translate);
 }
 
-const Object* Translation::get_intersecting(const Vec3&) const {
-    return this->obj;
+const Material* Translation::get_intersecting(const Vec3& point) const {
+    return this->obj->get_intersecting(point);
 }
 
 
@@ -148,6 +151,23 @@ double Scaling::distance_to(const Vec3& point) const {
     return obj->distance_to(point/factor) * factor;
 }
 
-const Object* Scaling::get_intersecting(const Vec3&) const {
-    return this->obj;
+const Material* Scaling::get_intersecting(const Vec3& point) const {
+    return this->obj->get_intersecting(point);
+}
+
+WithMaterial::WithMaterial(const Object* obj, const Material* material) {
+    this->obj = obj;
+    this->material = material;
+}
+
+WithMaterial::~WithMaterial() {
+    delete this->obj;
+}
+
+double WithMaterial::distance_to(const Vec3& point) const {
+    return obj->distance_to(point);
+}
+
+const Material* WithMaterial::get_intersecting(const Vec3&) const {
+    return this->material;
 }

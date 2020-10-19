@@ -14,13 +14,19 @@ private:
     double width, height;
 
     Ray ray(int, int, int, int) const;
-    bool get_pixel(Object*, int, int, int, int, double*, Vec3*, Vec3*, const Object**) const;
+    bool get_pixel(Object*, int, int, int, int, double*, Vec3*, Vec3*, const Material**) const;
 
 public:
     Cam();
     Cam(Vec3, Vec3, const Vec3&, double , double);
 
-    Image render(Object*, int, int);
+    void setPos(const Vec3&);
+    void setPointing(const Vec3&);
+
+    Image render_shaded(Object*, int, int) const;
+    Image render_realistic(Object*, int, int, int samples=100) const;
+
+    friend std::ostream& operator << (std::ostream&, const Cam&);
 };
 
 inline Ray Cam::ray(int x, int y, int w, int h) const {
@@ -28,6 +34,10 @@ inline Ray Cam::ray(int x, int y, int w, int h) const {
     double dy = (y / (h - 1.) - 0.5) * this->height;
     Vec3 dir = (this->dir + this->right * dx - this->up * dy).normal();
     return Ray(this->orig, dir);
+}
+
+inline std::ostream& operator << (std::ostream& out, const Cam& cam) {
+    return out << "Cam(orig=" << cam.orig << "; dir=" << cam.dir << "; right=" << cam.right << "; up=" << cam.up << "; width=" << cam.width << "; height=" << cam.height << ")";
 }
 
 #endif

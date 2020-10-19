@@ -1,19 +1,27 @@
-.PHONY: all clean mrproper rebuild run png
+.PHONY: all clean mrproper rebuild run png push icat
 
 NAME = raytrace
 
 CPP = g++
 LD = g++
 RM = rm -f
+MOC = moc
 
-CFLAGS = -Wall -Wextra -O2
-LDFLAGS =
-LIBS =
+PKGS = Qt5Widgets
+CFLAGS = -fopenmp -fPIC -Wall -Wextra -O3
+LDFLAGS = -fopenmp -fPIC
+LIBS = 
+
+CFLAGS := $(CFLAGS) $(shell pkg-config $(PKGS) --cflags)
+LIBS := $(LIBS) $(shell pkg-config $(PKGS) --libs)
 
 SOURCES = $(wildcard src/*.cpp)
 HEADERS = $(wildcard src/*.h)
+QHEADERS = $(wildcard src/*hh)
 
 OBJECTS = $(foreach source, $(SOURCES), build/$(patsubst src/%.cpp,%.o,$(source)))
+MOCS = $(foreach qheader, $(QHEADERS), build/$(patsubst src/%.hh,%.moc.cpp,$(qheader)))
+MOCOBJS = $(foreach moc, $(MOCS), $(patsubst %.moc.cpp,%.moc.o,$(moc)))
 
 BINARY = out/$(NAME)
 
@@ -21,6 +29,8 @@ all: $(BINARY)
 
 clean:
 	$(RM) $(OBJECTS)
+	$(RM) $(MOCOBJS)
+	$(RM) $(MOCS)
 	$(RM) Makefile.deps
 	$(RM) build/?*.* # catch all renamed files
 mrproper: clean
@@ -33,11 +43,22 @@ rebuild:
 run: all
 	./$(BINARY)
 
-png: all
-	./$(BINARY) > /tmp/a.bmp
-	convert /tmp/a.bmp /tmp/a.png
+bmp: out/$(NAME).bmp
+
+png: out/$(NAME).png
+
+push: out/$(NAME).png
 	push -d a.png || true
-	push /tmp/a.png
+	push $^ a.png
+
+icat: out/$(NAME).bmp
+	kitty +kitten icat $^
+
+out/$(NAME).bmp: $(BINARY)
+	./$(BINARY) > $@
+
+out/$(NAME).png: out/$(NAME).bmp
+	convert $^ $@
 
 include Makefile.deps
 Makefile.deps: $(SOURCES) $(HEADERS)
@@ -45,8 +66,14 @@ Makefile.deps: $(SOURCES) $(HEADERS)
 	@$(RM) Makefile.deps
 	@for file in $(SOURCES); do echo "build/`g++ $(CFLAGS) -M $$file`" >> Makefile.deps; done
 
-$(BINARY): $(OBJECTS)
+$(BINARY): $(OBJECTS) $(MOCOBJS)
 	$(LD) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 build/%.o: src/%.cpp
 	$(CPP) $(CFLAGS) -o $@ -c $<
+
+build/%.moc.o: build/%.moc.cpp
+	$(CPP) $(CFLAGS) -o $@ -c $<
+
+build/%.moc.cpp: src/%.hh
+	$(MOC) -o $@ $<

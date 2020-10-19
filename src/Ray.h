@@ -17,6 +17,9 @@ public:
     Vec3 point(double) const;
     bool intersect(Object*, double*, Vec3*, Vec3*) const;
 
+    Vec3 get_orig() const;
+    Vec3 get_dir() const;
+
     friend std::ostream& operator << (std::ostream&, const Ray&);
 };
 
@@ -27,6 +30,13 @@ inline Vec3 Ray::point(double t) const {
 inline std::ostream& operator<<(std::ostream& output, const Ray& ray){
     output << "(x, y, z) = " << ray.orig << " + t * " << ray.dir;
     return output;
+}
+
+inline Vec3 Ray::get_orig() const {
+    return orig;
+}
+inline Vec3 Ray::get_dir() const {
+    return dir;
 }
 
 #endif

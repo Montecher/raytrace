@@ -7,7 +7,7 @@ Ray::Ray(Vec3 orig, Vec3 dir) {
 }
 
 bool Ray::intersect(Object* object, double* t, Vec3* impact, Vec3* normal) const {
-    double last_t = 0;
+    double last_t = EPSILON*10;
     double max_t = std::min(*t, MAX_DIST);
 
     while (last_t < max_t) {
