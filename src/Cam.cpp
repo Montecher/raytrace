@@ -185,7 +185,7 @@ Image Cam::render_realistic(Object* scene, int w, int h, int samples) const {
 
                     // loop over samples
                     for(int s=0; s<samples; s++) {
-                        Ray ray = this->ray(x, y, w, h);
+                        Ray ray = this->ray(x*2+sx, y*2+sy, w*2, h*2);
                         sc = sc + radiance(ray, scene, 0, Xi) * 1./samples;
 
                         // maybe do something about this at some point
