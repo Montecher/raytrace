@@ -2,6 +2,13 @@
 #include "endian.h"
 #include <sstream>
 #include <cstdint>
+#include <algorithm>
+
+Image::Image() {
+    w = 0;
+    h = 0;
+    pixels = (rgb_color*) 0;
+}
 
 Image::Image(int w, int h) {
     this->w = w;
@@ -9,8 +16,15 @@ Image::Image(int w, int h) {
     this->pixels = new rgb_color[w*h];
 }
 
+Image::Image(const Image& cp) {
+    w = cp.w;
+    h = cp.h;
+    pixels = new rgb_color[w*h];
+    std::copy(&cp.pixels[0], &cp.pixels[w*h], &pixels[0]);
+}
+
 Image::~Image() {
-    delete this->pixels;
+    if(pixels) delete this->pixels;
 }
 
 std::string Image::to_string() {

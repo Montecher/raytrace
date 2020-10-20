@@ -4,6 +4,7 @@
 #include <QApplication>
 #include <QtWidgets>
 #include "Cam.h"
+#include "Renderer.hh"
 
 class Window : public QWidget {
     Q_OBJECT
@@ -13,8 +14,9 @@ private:
     QLabel *label;
     QPushButton *toggleRealistic;
 
-    Cam camera;
+    Cam *camera;
     Object *scene;
+    RendererThread *renderer;
 
 
 public:
@@ -24,6 +26,7 @@ private slots:
     void loadSCene(int);
     void test(int);
     void createImage();
+    void setImage(Image);
 
 signals:
     void showImage(QPixmap);

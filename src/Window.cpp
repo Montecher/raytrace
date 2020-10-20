@@ -3,11 +3,12 @@
 #include "Image.h"
 #include "constants.h"
 
-
-
-
 Window::Window() : QWidget() {
     scene = (Object*) 0;
+    camera = new Cam();
+    camera->setPos(Vec3::Z*3. - Vec3::X*5.);
+    camera->setPointing(Vec3::O);
+    renderer = new RendererThread;
 
     QHBoxLayout *layout = new QHBoxLayout;
     QGridLayout *leftPane = new QGridLayout;
@@ -28,7 +29,6 @@ Window::Window() : QWidget() {
     toggleRealistic->setCheckable(true);
     leftPane->addWidget(toggleRealistic, 2, 0);
 
-    camera = Cam();
     image = new QImage(WIDTH, HEIGHT, QImage::Format_RGB888);
     label = new QLabel();
     label->setPixmap(QPixmap::fromImage(*image));
@@ -40,15 +40,21 @@ Window::Window() : QWidget() {
     connect(sceneSelect, SIGNAL(activated(int)), this, SLOT(loadSCene(int)));
     connect(toggleRealistic, SIGNAL(toggled(bool)), this, SLOT(createImage()));
     connect(this, SIGNAL(showImage(QPixmap)), label, SLOT(setPixmap(QPixmap)));
+    connect(renderer, SIGNAL(image(Image)), this, SLOT(setImage(Image)));
 }
 
 void Window::createImage() {
     if(!scene) return;
     if (!toggleRealistic->isChecked()) {
-        image->loadFromData(QByteArray::fromStdString(camera.render_shaded(scene, WIDTH, HEIGHT).to_bmp()), "BMP");
+        renderer->render_shaded(scene, camera, WIDTH, HEIGHT);
     } else {
-        image->loadFromData(QByteArray::fromStdString(camera.render_realistic(scene, WIDTH, HEIGHT).to_bmp()), "BMP");
+        renderer->render_realistic(scene, camera, WIDTH, HEIGHT, RPP);
     }
+}
+
+void Window::setImage(Image img) {
+    qDebug() << "setImage";
+    image->loadFromData(QByteArray::fromStdString(img.to_bmp()), "BMP");
     emit showImage(QPixmap::fromImage(*image));
 }
 
@@ -74,7 +80,5 @@ void Window::loadSCene(int sceneNb) {
         default:
             return;
     }
-    camera.setPos(Vec3::Z*3. - Vec3::X*5.);
-    camera.setPointing(Vec3::O);
     createImage();
 }

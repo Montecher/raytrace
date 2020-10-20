@@ -5,5 +5,6 @@
 #define MAX_DIST 50.
 #define WIDTH 480
 #define HEIGHT 480
+#define RPP 100
 
 #endif //RAYTRACE_CONSTANTS_H

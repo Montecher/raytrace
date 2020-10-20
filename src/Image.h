@@ -11,7 +11,9 @@ private:
     rgb_color* pixels;
 
 public:
+    Image();
     Image(int w, int h);
+    Image(const Image& copy);
     ~Image();
 
     int width() const;
@@ -39,5 +41,8 @@ inline rgb_color Image::pixel(int x, int y) const {
 inline void Image::pixel(int x, int y, rgb_color color) {
     this->pixels[x + this->w*y] = color;
 }
+
+#include <QMetaType>
+Q_DECLARE_METATYPE(Image)
 
 #endif
