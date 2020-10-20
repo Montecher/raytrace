@@ -2,7 +2,8 @@ build/*.o
 build/*.cpp
 
 out/raytrace
-out/raytrace.*
+out/*.bmp
+out/*.png
 
 .idea/
 Makefile.deps
