@@ -174,7 +174,7 @@ Image Cam::render_realistic(Object* scene, int w, int h, int samples) const {
     for(int y=0; y<h; y++) {
         for(unsigned short x=0; x<w; x++) {
 
-            unsigned short Xi[3] = {0, 0, (unsigned short) (y*y*y)};
+            unsigned short Xi[3] = {0, 0, (unsigned short) (y*y*y+x*x*x)};
             Vec3 r = Vec3::O;
 
             // loop over subpixels
