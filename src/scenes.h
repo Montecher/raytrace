@@ -2,14 +2,22 @@
 #define RAYTRACE_SCENES_H
 
 #include <string>
-#include "Image.h"
+#include "Cam.h"
 #include "Object.h"
 
-namespace SCENE {
+class Scene {
+private:
+    Cam* _cam;
+    Object* _scene;
 
-    Object * scene1();
-    Object * scene2();
-    Object * scene3();
-}
+public:
+    Scene(Cam*, Object*);
+    ~Scene();
+
+    inline Cam* cam() const { return _cam; }
+    inline Object* scene() const { return _scene; }
+
+    static std::map<std::string, Scene*>* getScenes();
+};
 
 #endif //RAYTRACE_SCENES_H

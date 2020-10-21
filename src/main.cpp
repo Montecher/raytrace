@@ -11,23 +11,16 @@
 #define SIZE 480
 #define RPP 500
 
-void render(std::string file, Object* scene) {
-    Cam* cam = new Cam();
-    cam->setPos(Vec3::Z*3. - Vec3::X*5.);
-    cam->setPointing(Vec3::O);
-
+void render(std::string name, Scene* scene) {
     std::fstream fs;
-    fs.open(file, std::fstream::out);
-    fs << cam->render_realistic(scene, SIZE, SIZE, RPP).to_bmp();
+    fs.open("out/"+name+".bmp", std::fstream::out);
+    fs << scene->cam()->render_realistic(scene->scene(), SIZE, SIZE, RPP).to_bmp();
     fs.close();
-
-    delete cam;
+    std::cout << "rendered " << name << std::endl;
 }
 
 int main() {
-    render("out/scene1.bmp", SCENE::scene1());
-    render("out/scene2.bmp", SCENE::scene2());
-    render("out/scene3.bmp", SCENE::scene3());
+    for(auto it=Scene::getScenes()->begin(); it!=Scene::getScenes()->end(); ++it) render(it->first, it->second);
     return 0;
 }
 */
@@ -43,4 +36,3 @@ int main(int argc, char *argv[])
 
     return app.exec();
 }
-
