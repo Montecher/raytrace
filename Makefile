@@ -8,16 +8,16 @@ RM = rm -f
 MOC = moc
 
 PKGS = Qt5Widgets
-CFLAGS = -fopenmp -fPIC -Wall -Wextra -O3
+CFLAGS = -fopenmp -fPIC -Wall -Wextra -O3 -Isrc
 LDFLAGS = -fopenmp -fPIC
 LIBS = 
 
 CFLAGS := $(CFLAGS) $(shell pkg-config $(PKGS) --cflags)
 LIBS := $(LIBS) $(shell pkg-config $(PKGS) --libs)
 
-SOURCES = $(wildcard src/*.cpp)
-HEADERS = $(wildcard src/*.h)
-QHEADERS = $(wildcard src/*hh)
+SOURCES = $(wildcard src/*.cpp) $(wildcard src/*/*.cpp)
+HEADERS = $(wildcard src/*.h) $(wildcard src/*/*.h)
+QHEADERS = $(wildcard src/*.hh) $(wildcard src/*/*.hh)
 
 OBJECTS = $(foreach source, $(SOURCES), build/$(patsubst src/%.cpp,%.o,$(source)))
 MOCS = $(foreach qheader, $(QHEADERS), build/$(patsubst src/%.hh,%.moc.cpp,$(qheader)))

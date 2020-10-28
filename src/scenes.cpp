@@ -1,9 +1,6 @@
 #include "scenes.h"
 
-#include "Object.h"
-#include "Sphere.h"
-#include "Plane.h"
-#include "Box.h"
+#include "Objects.h"
 #include "Image.h"
 
 Scene::Scene(Cam* cam, Object* scene) {

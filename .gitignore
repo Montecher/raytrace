@@ -1,5 +1,6 @@
 build/*.o
 build/*.cpp
+build/Objects/*.o
 
 out/raytrace
 out/*.bmp

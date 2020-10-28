@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Sphere.h"
+#include "Objects/Sphere.h"
 #include "Vec3.h"
 
 Sphere::Sphere() {
