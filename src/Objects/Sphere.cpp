@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Objects/Sphere.h"
 #include "Vec3.h"
 
