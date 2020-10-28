@@ -12,6 +12,7 @@
 #include "Objects/Sphere.h"
 #include "Objects/Cylinder.h"
 #include "Objects/Waves.h"
+#include "Objects/Torus.h"
 
 // unary operators
 #include "Objects/Scaling.h"

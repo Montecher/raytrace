@@ -3,7 +3,7 @@
 #include "Window.hh"
 #include "Image.h"
 
-/*
+
 #include <fstream>
 #include "Cam.h"
 #include "scenes.h"
@@ -12,6 +12,7 @@
 #define SIZE 480
 #define RPP 500
 
+/*
 void render(std::string name, Scene* scene) {
     std::fstream fs;
     fs.open("out/"+name+".bmp", std::fstream::out);
@@ -25,7 +26,7 @@ void justRender(std::string name) {
 }
 
 int main() {
-    justRender("scene 4");
+    justRender("scene 6");
     //for(auto it=Scene::getScenes()->begin(); it!=Scene::getScenes()->end(); ++it) render(it->first, it->second);
     return 0;
 }
