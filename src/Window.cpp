@@ -4,10 +4,7 @@
 #include "constants.h"
 
 Window::Window() : QWidget() {
-    scene = (Object*) 0;
-    camera = new Cam();
-    camera->setPos(Vec3::Z*3. - Vec3::X*5.);
-    camera->setPointing(Vec3::O);
+    scene = (Scene*) 0;
     renderer = new RendererThread;
 
     QHBoxLayout *layout = new QHBoxLayout;
@@ -17,10 +14,10 @@ Window::Window() : QWidget() {
     QLabel *title = new QLabel("Select a scene:");
     title->setFixedHeight(50);
     leftPane->addWidget(title, 0, 0);
-    QComboBox *sceneSelect = new QComboBox();
-    sceneSelect->addItem("scene 1");
-    sceneSelect->addItem("scene 2");
-    sceneSelect->addItem("scene 3");
+    sceneSelect = new QComboBox();
+    for(auto it = Scene::getScenes()->begin(); it!=Scene::getScenes()->end(); ++it) {
+        sceneSelect->addItem(QString::fromStdString(std::string(it->first)));
+    }
     sceneSelect->setCurrentIndex(-1);
     leftPane->addWidget(sceneSelect, 1, 0);
 
@@ -37,7 +34,7 @@ Window::Window() : QWidget() {
     setLayout(layout);
 
     connect(sceneSelect, SIGNAL(activated(int)), this, SLOT(test(int)));
-    connect(sceneSelect, SIGNAL(activated(int)), this, SLOT(loadSCene(int)));
+    connect(sceneSelect, SIGNAL(activated(int)), this, SLOT(loadScene(int)));
     connect(toggleRealistic, SIGNAL(toggled(bool)), this, SLOT(createImage()));
     connect(this, SIGNAL(showImage(QPixmap)), label, SLOT(setPixmap(QPixmap)));
     connect(renderer, SIGNAL(image(Image)), this, SLOT(setImage(Image)));
@@ -46,9 +43,9 @@ Window::Window() : QWidget() {
 void Window::createImage() {
     if(!scene) return;
     if (!toggleRealistic->isChecked()) {
-        renderer->render_shaded(scene, camera, WIDTH, HEIGHT);
+        renderer->render_shaded(scene->scene(), scene->cam(), WIDTH, HEIGHT);
     } else {
-        renderer->render_realistic(scene, camera, WIDTH, HEIGHT, RPP);
+        renderer->render_realistic(scene->scene(), scene->cam(), WIDTH, HEIGHT, RPP);
     }
 }
 
@@ -62,23 +59,7 @@ void Window::test(int input) {
     qDebug() << input;
 }
 
-void Window::loadSCene(int sceneNb) {
-    if(scene) {
-        delete scene;
-        scene = (Object*) 0;
-    }
-    switch (sceneNb) {
-        case 0:
-            scene = SCENE::scene1();
-            break;
-        case 1:
-            scene = SCENE::scene2();
-            break;
-        case 2:
-            scene = SCENE::scene3();
-            break;
-        default:
-            return;
-    }
+void Window::loadScene(int sceneNb) {
+    scene = Scene::getScenes()->at(std::string(sceneSelect->itemText(sceneNb).toUtf8().constData()));
     createImage();
 }

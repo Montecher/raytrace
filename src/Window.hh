@@ -5,6 +5,7 @@
 #include <QtWidgets>
 #include "Cam.h"
 #include "Renderer.hh"
+#include "scenes.h"
 
 
 /**
@@ -20,9 +21,9 @@ private:
     QImage *image; ///< Object storing the rendered image.
     QLabel *label; ///< Container of the image in the window.
     QPushButton *toggleRealistic; ///< Button used to swap between the shaded and realistic view.
+    QComboBox *sceneSelect; ///< Combobox used to select the scene.
 
-    Cam *camera; ///< Camera used as the PoV for the rendered image.
-    Object *scene; ///< Scene currently loaded in the window.
+    Scene *scene; ///< Scene currently loaded in the window.
     RendererThread *renderer; ///< Renderer thread to free up GUI thread.
 
 
@@ -40,7 +41,7 @@ private slots:
      *
      * @param sceneNb id of the selected value in the combobox with all the scenes listed.
      */
-    void loadSCene(int sceneNb);
+    void loadScene(int sceneNb);
 
     void test(int);
 
