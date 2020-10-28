@@ -11,6 +11,7 @@
 #include "Objects/Plane.h"
 #include "Objects/Sphere.h"
 #include "Objects/Cylinder.h"
+#include "Objects/Waves.h"
 
 // unary operators
 #include "Objects/Scaling.h"

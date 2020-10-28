@@ -8,6 +8,7 @@
 #include "Cam.h"
 #include "scenes.h"
 
+#undef RPP
 #define SIZE 480
 #define RPP 500
 
@@ -19,11 +20,16 @@ void render(std::string name, Scene* scene) {
     std::cout << "rendered " << name << std::endl;
 }
 
+void justRender(std::string name) {
+    render(name, Scene::getScene(name));
+}
+
 int main() {
-    for(auto it=Scene::getScenes()->begin(); it!=Scene::getScenes()->end(); ++it) render(it->first, it->second);
+    justRender("scene 4");
+    //for(auto it=Scene::getScenes()->begin(); it!=Scene::getScenes()->end(); ++it) render(it->first, it->second);
     return 0;
 }
-*/
+//*/
 
 
 int main(int argc, char *argv[])
@@ -36,3 +42,4 @@ int main(int argc, char *argv[])
 
     return app.exec();
 }
+//*/

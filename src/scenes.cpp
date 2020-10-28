@@ -65,11 +65,30 @@ static Object* scene3() {
 
 static Object* scene4() {
     Object* ceiling = new WithMaterial(new Plane(0, 0, -1, 8), &Material::lightsource);
-    Object* floor = new WithMaterial(new Plane(0, 0, 1, 2), &Material::white);
+    Object* floor = new WithMaterial(new Translation(new Waves, Vec3::Z*-5), &Material::mirror);
+
     Object* cylinder = new Cylinder(0, 0, 0, 1, .5);
     Object* sphere = new Sphere(1, 1, 0, 1);
     Object* stuff = new WithMaterial(new SmoothUnion(cylinder, sphere, 1), &Material::blue);
-    return new Union(ceiling, floor, stuff);
+
+    Object* backwall = new WithMaterial(new Plane(-1, 0, 0, 6), &Material::white);
+    Object* leftwall = new WithMaterial(new Plane(0, 1, 0, 4), &Material::green);
+    Object* rightwall = new WithMaterial(new Plane(0, -1, 0, 4), &Material::red);
+    Object* walls = new Union(backwall, leftwall, rightwall);
+
+    return new Union(ceiling, floor, stuff, walls);
+}
+
+static Object* scene5() {
+    static Material biglight = Material(Vec3::O, Vec3(2, 2, 2), DIFFUSE);
+    static Material antilight = Material(Vec3::O, Vec3(-9, -5, 0), DIFFUSE);
+    static Material antimirror = Material(Vec3(-1, 1, 1), Vec3::Y*.05, REFLECTIVE);
+
+    Object* floor = new WithMaterial(new Plane(0, 0, 1, 3), &Material::white);
+    Object* lightsphere = new WithMaterial(new Sphere(0, 2, 0, 1), &biglight);
+    Object* antilightsphere = new WithMaterial(new Sphere(0, -2, 0, 1), &antilight);
+    Object* mirror = new WithMaterial(new Plane(-1, 0, 0, 3), &antimirror);
+    return new Union(floor, lightsphere, antilightsphere, mirror);
 }
 
 static Cam normalCam;
@@ -83,6 +102,11 @@ std::map<std::string, Scene*>* Scene::getScenes() {
         scenes["scene 2"] = new Scene(&normalCam, scene2());
         scenes["scene 3"] = new Scene(&normalCam, scene3());
         scenes["scene 4"] = new Scene(&normalCam, scene4());
+        scenes["scene 5"] = new Scene(&normalCam, scene5());
     }
     return &scenes;
+}
+
+Scene* Scene::getScene(std::string name) {
+    return Scene::getScenes()->at(name);
 }

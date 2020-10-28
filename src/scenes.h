@@ -18,6 +18,7 @@ public:
     inline Object* scene() const { return _scene; }
 
     static std::map<std::string, Scene*>* getScenes();
+    static Scene* getScene(std::string);
 };
 
 #endif //RAYTRACE_SCENES_H
