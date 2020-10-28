@@ -1,4 +1,4 @@
-.PHONY: all clean mrproper rebuild run png push icat
+.PHONY: all clean mrproper rebuild run
 
 NAME = raytrace
 
@@ -43,23 +43,6 @@ rebuild:
 
 run: all
 	./$(BINARY)
-
-bmp: out/$(NAME).bmp
-
-png: out/$(NAME).png
-
-push: out/$(NAME).png
-	push -d a.png || true
-	push $^ a.png
-
-icat: out/$(NAME).bmp
-	kitty +kitten icat $^
-
-out/$(NAME).bmp: $(BINARY)
-	./$(BINARY) > $@
-
-out/$(NAME).png: out/$(NAME).bmp
-	convert $^ $@
 
 include Makefile.deps
 Makefile.deps: $(SOURCES) $(HEADERS)
