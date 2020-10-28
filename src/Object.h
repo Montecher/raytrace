@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Material.h"
 #include "Vec3.h"
+#include "constants.h"
 
 /**
  * \class Object

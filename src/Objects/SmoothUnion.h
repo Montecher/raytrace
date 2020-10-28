@@ -60,6 +60,7 @@ public:
 
     virtual double distance_to(const Vec3& point) const;
     virtual const Material* get_intersecting(const Vec3& point) const;
+    virtual Vec3 normal_at(const Vec3& point) const;
 };
 
 #endif

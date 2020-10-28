@@ -66,8 +66,10 @@ static Object* scene3() {
 static Object* scene4() {
     Object* ceiling = new WithMaterial(new Plane(0, 0, -1, 8), &Material::lightsource);
     Object* floor = new WithMaterial(new Plane(0, 0, 1, 2), &Material::white);
-    Object* cylinder = new WithMaterial(new Cylinder(0, 0, 0, 1, .5), &Material::blue);
-    return new Union(ceiling, floor, cylinder);
+    Object* cylinder = new Cylinder(0, 0, 0, 1, .5);
+    Object* sphere = new Sphere(1, 1, 0, 1);
+    Object* stuff = new WithMaterial(new SmoothUnion(cylinder, sphere, 1), &Material::blue);
+    return new Union(ceiling, floor, stuff);
 }
 
 static Cam normalCam;

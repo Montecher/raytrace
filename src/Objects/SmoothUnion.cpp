@@ -19,11 +19,15 @@ SmoothUnion::SmoothUnion(const Object* obj1, const Object* obj2, const Object* o
 double SmoothUnion::distance_to(const Vec3& point) const {
     double dt1 = obj1->distance_to(point);
     double dt2 = obj2->distance_to(point);
-    double h = std::max(1-((dt1 - dt2)/r), 0.);
+    double h = std::max(r - std::abs(dt1-dt2), 0.) / r;
 
-    return std::min(obj1->distance_to(point), obj2->distance_to(point))- h*h*h*r/6;
+    return std::min(dt1, dt2) - h*h*h*r/6.;
 }
 
 const Material* SmoothUnion::get_intersecting(const Vec3& point) const {
     return obj1->get_intersecting(point);
+}
+
+Vec3 SmoothUnion::normal_at(const Vec3& point) const {
+    return Object::normal_at(point);
 }
