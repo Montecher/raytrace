@@ -46,9 +46,9 @@ run: all
 
 include Makefile.deps
 Makefile.deps: $(SOURCES) $(HEADERS)
-	@echo "Calculating dependencies"
+	@echo "Computing dependencies"
 	@$(RM) Makefile.deps
-	@for file in $(SOURCES); do echo "build/`g++ $(CFLAGS) -M $$file`" >> Makefile.deps; done
+	@for file in $(SOURCES); do echo "`echo $$file | sed 's|^src/|build/|' | sed 's|[^/]*$$||'``g++ $(CFLAGS) -M $$file`" >> Makefile.deps; done
 
 $(BINARY): $(OBJECTS) $(MOCOBJS)
 	$(LD) $(LDFLAGS) -o $@ $^ $(LIBS)
