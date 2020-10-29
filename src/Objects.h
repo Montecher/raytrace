@@ -19,6 +19,7 @@
 #include "Objects/Negation.h"
 #include "Objects/Translation.h"
 #include "Objects/WithMaterial.h"
+#include "Objects/LinearTransform.h"
 
 // binary operators
 #include "Objects/Union.h"

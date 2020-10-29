@@ -117,6 +117,19 @@ static Object* scene8() {
     return new Union(centersphere, outertorus, floor);
 }
 
+static Object* scene9() {
+    Mat3 transform = LinearTransform::rotate(.2, .2, .2);
+    Object* matchstick = new Union(
+        new WithMaterial(new Sphere(0, 0, 1, .5), &Material::red),
+        new WithMaterial(new Cylinder(0, 0, 0, .25, 1), &Material::blue),
+        new WithMaterial(new Sphere(0, .5, 0, .5), &Material::green)
+    );
+    Object* transformed = new LinearTransform(matchstick, transform);
+
+    Object* light = new WithMaterial(new Plane(0, 0, -1, 8), &Material::lightsource);
+    return new Union(transformed, light);
+}
+
 static Cam normalCam;
 
 std::map<std::string, Scene*>* Scene::getScenes() {
@@ -132,6 +145,7 @@ std::map<std::string, Scene*>* Scene::getScenes() {
         scenes["scene 6"] = new Scene(&normalCam, scene6());
         scenes["scene 7"] = new Scene(&normalCam, scene7());
         scenes["scene 8"] = new Scene(&normalCam, scene8());
+        scenes["scene 9"] = new Scene(&normalCam, scene9());
     }
     return &scenes;
 }
