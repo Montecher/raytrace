@@ -20,6 +20,7 @@
 #include "Objects/Translation.h"
 #include "Objects/WithMaterial.h"
 #include "Objects/LinearTransform.h"
+#include "Objects/AffineTransform.h"
 
 // binary operators
 #include "Objects/Union.h"

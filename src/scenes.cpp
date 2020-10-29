@@ -124,7 +124,7 @@ static Object* scene9() {
         new WithMaterial(new Cylinder(0, 0, 0, .25, 1), &Material::blue),
         new WithMaterial(new Sphere(0, .5, 0, .5), &Material::green)
     );
-    Object* transformed = new LinearTransform(matchstick, transform);
+    Object* transformed = new AffineTransform(matchstick, transform, -Vec3::Z);
 
     Object* light = new WithMaterial(new Plane(0, 0, -1, 8), &Material::lightsource);
     return new Union(transformed, light);
