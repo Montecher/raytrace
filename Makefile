@@ -8,7 +8,7 @@ RM = rm -f
 MOC = moc
 
 PKGS = Qt5Widgets
-CFLAGS = -fopenmp -fPIC -Wall -Wextra -O3 -Isrc
+CFLAGS = -fopenmp -fPIC -Wall -Wextra -O3 -Isrc --std=c++11
 LDFLAGS = -fopenmp -fPIC
 LIBS = 
 
