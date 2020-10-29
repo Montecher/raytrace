@@ -6,9 +6,9 @@ void Renderer::render_shaded(Object* scene, Cam* cam, int width, int height) {
     emit Renderer::image(cam->render_shaded(scene, width, height));
 }
 
-void Renderer::render_realistic(Object* scene, Cam* cam, int width, int height, int rpp) {
+void Renderer::render_realistic(Object* scene, Cam* cam, int width, int height, int rpp, int depth) {
     qDebug() << "render_realistic";
-    emit Renderer::image(cam->render_realistic(scene, width, height, rpp));
+    emit Renderer::image(cam->render_realistic(scene, width, height, rpp, depth));
 }
 
 RendererThread::RendererThread() {
@@ -31,7 +31,7 @@ void RendererThread::render_shaded(Object* scene, Cam* cam, int width, int heigh
     emit _render_shaded(scene, cam, width, height);
 }
 
-void RendererThread::render_realistic(Object* scene, Cam* cam, int width, int height, int rpp) {
+void RendererThread::render_realistic(Object* scene, Cam* cam, int width, int height, int rpp, int depth) {
     qDebug() << "render_realistic thread";
-    emit _render_realistic(scene, cam, width, height, rpp);
+    emit _render_realistic(scene, cam, width, height, rpp, depth);
 }

@@ -45,7 +45,7 @@ void Window::createImage() {
     if (!toggleRealistic->isChecked()) {
         renderer->render_shaded(scene->scene(), scene->cam(), WIDTH, HEIGHT);
     } else {
-        renderer->render_realistic(scene->scene(), scene->cam(), WIDTH, HEIGHT, RPP);
+        renderer->render_realistic(scene->scene(), scene->cam(), WIDTH, HEIGHT, RPP, DEPTH);
     }
 }
 

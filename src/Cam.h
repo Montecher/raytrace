@@ -24,7 +24,7 @@ public:
     void setPointing(const Vec3&);
 
     Image render_shaded(Object*, int, int) const;
-    Image render_realistic(Object*, int, int, int samples=100) const;
+    Image render_realistic(Object*, int, int, int samples=RPP, int depth=DEPTH) const;
 
     friend std::ostream& operator << (std::ostream&, const Cam&);
 };

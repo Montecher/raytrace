@@ -107,6 +107,16 @@ static Object* scene7() {
     return new Union(sphere, floor, planes, light);
 }
 
+static Object* scene8() {
+    static Material yellowlight = Material(Vec3(1, 1, 1), Vec3(1, 1, 0), DIFFUSE);
+    static Material redlight = Material(Vec3(1, 1, 1), Vec3(1, 0, 0), DIFFUSE);
+
+    Object* centersphere = new WithMaterial(new Sphere(0, 0, 0, .5), &yellowlight);
+    Object* outertorus = new WithMaterial(new Torus(0, 0, 0, 1, .25), &redlight);
+    Object* floor = new WithMaterial(new Plane(0, 0, 1, 1), &Material::white);
+    return new Union(centersphere, outertorus, floor);
+}
+
 static Cam normalCam;
 
 std::map<std::string, Scene*>* Scene::getScenes() {
@@ -121,6 +131,7 @@ std::map<std::string, Scene*>* Scene::getScenes() {
         scenes["scene 5"] = new Scene(&normalCam, scene5());
         scenes["scene 6"] = new Scene(&normalCam, scene6());
         scenes["scene 7"] = new Scene(&normalCam, scene7());
+        scenes["scene 8"] = new Scene(&normalCam, scene8());
     }
     return &scenes;
 }
