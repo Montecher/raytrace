@@ -1,4 +1,4 @@
-.PHONY: all clean mrproper rebuild run
+.PHONY: all clean mrproper rebuild run doc
 
 NAME = raytrace
 
@@ -44,6 +44,8 @@ rebuild:
 run: all
 	./$(BINARY)
 
+doc:
+	doxygen Doxyfile
 include Makefile.deps
 Makefile.deps: $(SOURCES) $(HEADERS)
 	@echo "Computing dependencies"
