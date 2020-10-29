@@ -1,4 +1,4 @@
-.PHONY: all clean mrproper rebuild run png push icat
+.PHONY: all clean mrproper rebuild run png push icat doc
 
 NAME = raytrace
 
@@ -54,6 +54,9 @@ push: out/$(NAME).png
 
 icat: out/$(NAME).bmp
 	kitty +kitten icat $^
+
+doc:
+	doxygen Doxyfile
 
 out/$(NAME).bmp: $(BINARY)
 	./$(BINARY) > $@

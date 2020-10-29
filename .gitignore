@@ -4,6 +4,7 @@ build/*.cpp
 out/raytrace
 out/*.bmp
 out/*.png
+out/doc/
 
 .idea/
 Makefile.deps
