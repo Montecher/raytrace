@@ -7,7 +7,8 @@
 typedef enum ReflectionType {
     DIFFUSE,
     REFLECTIVE,
-    REFRACTIVE
+    REFRACTIVE,
+    STOP
 } ReflectionType;
 
 class Material {

@@ -140,6 +140,9 @@ static Vec3 radiance(const Ray &r, Object* scene, int depth, unsigned short *Xi)
     } else if (material->reflection() == REFLECTIVE) {
         // reflection
         return material->emission() + f.mult(radiance(Ray(x, r.get_dir()-n*2*(n*r.get_dir())), scene, depth, Xi));
+    } else if (material->reflection() == STOP) {
+        // flat shading
+        return material->emission();
     } else {
         // refraction
 
