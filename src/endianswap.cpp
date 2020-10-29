@@ -1,4 +1,4 @@
-#include "endian.h"
+#include "endianswap.h"
 
 static inline bool is_little_endian() {
     int n = 1;

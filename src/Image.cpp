@@ -1,5 +1,5 @@
 #include "Image.h"
-#include "endian.h"
+#include "endianswap.h"
 #include <sstream>
 #include <cstdint>
 #include <algorithm>

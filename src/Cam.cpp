@@ -1,7 +1,6 @@
 #include "Cam.h"
 #include "constants.h"
 #include "color.h"
-#include "endian.h"
 #include <cmath>
 #include <cstdlib>
 
