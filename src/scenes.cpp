@@ -80,9 +80,9 @@ static Object* scene4() {
 }
 
 static Object* scene5() {
-    static Material biglight = Material(Vec3::O, Vec3(2, 2, 2), DIFFUSE);
-    static Material antilight = Material(Vec3::O, Vec3(-9, -5, 0), DIFFUSE);
-    static Material antimirror = Material(Vec3(-1, 1, 1), Vec3::Y*.05, REFLECTIVE);
+    static Material biglight = Material(Light::black, Light::white*2);
+    static Material antilight = Material(Light::black, Light(-9, -5, 0, 0));
+    static Material antimirror = Material(Light(-1, 1, 1, 1), Light(0, .05, 0, 0), REFLECTIVE);
 
     Object* floor = new WithMaterial(new Plane(0, 0, 1, 3), &Material::white);
     Object* lightsphere = new WithMaterial(new Sphere(0, 2, 0, 1), &biglight);
@@ -108,8 +108,8 @@ static Object* scene7() {
 }
 
 static Object* scene8() {
-    static Material yellowlight = Material(Vec3(1, 1, 1), Vec3(1, 1, 0), DIFFUSE);
-    static Material redlight = Material(Vec3(1, 1, 1), Vec3(1, 0, 0), DIFFUSE);
+    static Material yellowlight = Material(Light::white, Light(1, 1, 0, 0));
+    static Material redlight = Material(Light::white, Light(1, 0, 0, 0));
 
     Object* centersphere = new WithMaterial(new Sphere(0, 0, 0, .5), &yellowlight);
     Object* outertorus = new WithMaterial(new Torus(0, 0, 0, 1, .25), &redlight);
@@ -130,6 +130,14 @@ static Object* scene9() {
     return new Union(transformed, light);
 }
 
+static Object* sceneA() {
+    Object* uvsource = new WithMaterial(new Sphere(0, 2, 0, 1), &Material::uvlight);
+    Object* lightsource = new WithMaterial(new Plane(0, 0, -1, 8), &Material::lightsource);
+    Object* floor = new WithMaterial(new Plane(0, 0, 1, 3), &Material::white);
+    Object* sphere = new WithMaterial(new Sphere(0, 0, 0, .5), &Material::fluorescent);
+    return new Union(uvsource, lightsource, sphere, floor);
+}
+
 static Cam normalCam;
 
 std::map<std::string, Scene*>* Scene::getScenes() {
@@ -146,6 +154,7 @@ std::map<std::string, Scene*>* Scene::getScenes() {
         scenes["scene 7"] = new Scene(&normalCam, scene7());
         scenes["scene 8"] = new Scene(&normalCam, scene8());
         scenes["scene 9"] = new Scene(&normalCam, scene9());
+        scenes["scene A"] = new Scene(&normalCam, sceneA());
     }
     return &scenes;
 }

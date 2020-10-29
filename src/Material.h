@@ -1,8 +1,6 @@
 #ifndef __MATERIAL_H
 #define __MATERIAL_H
-
-#include "Vec3.h"
-#include <iostream>
+#include "Light.h"
 
 typedef enum ReflectionType {
     DIFFUSE,
@@ -13,29 +11,32 @@ typedef enum ReflectionType {
 
 class Material {
 private:
-    Vec3 _emission;
-    Vec3 _color;
+    Diffusion _color;
+    Light _emission;
     ReflectionType _reflection;
 
 public:
-    static Material lightsource, white, black, mirror, glass, red, green, blue;
+    static Material lightsource, white, black, mirror, red, green, blue;
+    static Material uvlight, fluorescent;
 
-    Material(const Vec3&, const Vec3&, ReflectionType);
-    Material(const Vec3&, const Vec3&);
+    Material(const Diffusion&, const Light&, ReflectionType);
+    Material(const Light&, const Light&, ReflectionType);
+    Material(const Diffusion&, const Light&);
+    Material(const Light&, const Light&);
+    Material(const Diffusion&);
+    Material(const Light&);
     Material();
 
-    Vec3 emission() const;
-    Vec3 color() const;
+    Diffusion color() const;
+    Light emission() const;
     ReflectionType reflection() const;
-
-    friend std::ostream& operator << (std::ostream&, const Material&);
 };
 
-inline Vec3 Material::emission() const {
-    return _emission;
-}
-inline Vec3 Material::color() const {
+inline Diffusion Material::color() const {
     return _color;
+}
+inline Light Material::emission() const {
+    return _emission;
 }
 inline ReflectionType Material::reflection() const {
     return _reflection;

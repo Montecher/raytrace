@@ -27,8 +27,8 @@ void justRender(std::string name) {
 }
 
 int main() {
-    justRender("scene 8");
-    //for(auto it=Scene::getScenes()->begin(); it!=Scene::getScenes()->end(); ++it) render(it->first, it->second);
+    justRender("scene A");
+    for(auto it=Scene::getScenes()->begin(); it!=Scene::getScenes()->end(); ++it) render(it->first, it->second);
     return 0;
 }
 //*/
