@@ -116,7 +116,7 @@ static Vec3 radiance(const Ray &r, Object* scene, int depth, unsigned short *Xi)
     Vec3 f = material->color();
 
     // max reflection
-    if(++depth>5) {
+    if(--depth<=0) {
         return material->color();
 
         // the following seemed to just go on forever, so I commented it out
@@ -140,6 +140,9 @@ static Vec3 radiance(const Ray &r, Object* scene, int depth, unsigned short *Xi)
     } else if (material->reflection() == REFLECTIVE) {
         // reflection
         return material->emission() + f.mult(radiance(Ray(x, r.get_dir()-n*2*(n*r.get_dir())), scene, depth, Xi));
+    } else if (material->reflection() == STOP) {
+        // flat shading
+        return material->emission();
     } else {
         // refraction
 
@@ -166,7 +169,7 @@ static Vec3 radiance(const Ray &r, Object* scene, int depth, unsigned short *Xi)
     }
 }
 
-Image Cam::render_realistic(Object* scene, int w, int h, int samples) const {
+Image Cam::render_realistic(Object* scene, int w, int h, int samples, int depth) const {
     Image img = Image(w, h);
 
 #pragma omp parallel for
@@ -186,7 +189,7 @@ Image Cam::render_realistic(Object* scene, int w, int h, int samples) const {
                     // loop over samples
                     for(int s=0; s<samples; s++) {
                         Ray ray = this->ray(x*2+sx, y*2+sy, w*2, h*2);
-                        sc = sc + radiance(ray, scene, 0, Xi) * 1./samples;
+                        sc = sc + radiance(ray, scene, depth, Xi) * 1./samples;
 
                         // maybe do something about this at some point
                         /*

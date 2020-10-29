@@ -1,4 +1,4 @@
-#include "Box.h"
+#include "Objects/Box.h"
 
 Box::Box() {
     this->a = Vec3(-0.5, -0.5, -0.5);

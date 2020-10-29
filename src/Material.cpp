@@ -1,6 +1,6 @@
 #include "Material.h"
 
-Material Material::lightsource = Material(Vec3(.75,  .75,  .75),  Vec3(.75, .75, .75), DIFFUSE   );
+Material Material::lightsource = Material(Vec3::O,                Vec3(.75, .75, .75), STOP      );
 Material Material::white       = Material(Vec3(.75,  .75,  .75),  Vec3::O,             DIFFUSE   );
 Material Material::glass       = Material(Vec3(.999, .999, .999), Vec3::O,             REFRACTIVE);
 Material Material::mirror      = Material(Vec3(.999, .999, .999), Vec3::O,             REFLECTIVE);

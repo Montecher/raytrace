@@ -19,7 +19,7 @@ signals:
 
 public slots:
 	void render_shaded(Object*, Cam*, int, int);
-	void render_realistic(Object*, Cam*, int, int, int);
+	void render_realistic(Object*, Cam*, int, int, int, int);
 };
 
 class RendererThread: public QObject {
@@ -36,11 +36,11 @@ public:
 signals:
 	void image(Image);
 	void _render_shaded(Object*, Cam*, int, int);
-	void _render_realistic(Object*, Cam*, int, int, int);
+	void _render_realistic(Object*, Cam*, int, int, int, int);
 
 public slots:
 	void render_shaded(Object*, Cam*, int, int);
-	void render_realistic(Object*, Cam*, int, int, int);
+	void render_realistic(Object*, Cam*, int, int, int, int);
 };
 
 #endif

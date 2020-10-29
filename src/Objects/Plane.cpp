@@ -1,4 +1,4 @@
-#include "Plane.h"
+#include "Objects/Plane.h"
 
 Plane::Plane(const Vec3& normal, double offset) {
     double norm = normal.hypot();

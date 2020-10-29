@@ -8,22 +8,30 @@
 #include "Cam.h"
 #include "scenes.h"
 
+#undef RPP
+#undef DEPTH
 #define SIZE 480
 #define RPP 500
+#define DEPTH 10
 
 void render(std::string name, Scene* scene) {
     std::fstream fs;
     fs.open("out/"+name+".bmp", std::fstream::out);
-    fs << scene->cam()->render_realistic(scene->scene(), SIZE, SIZE, RPP).to_bmp();
+    fs << scene->cam()->render_realistic(scene->scene(), SIZE, SIZE, RPP, DEPTH).to_bmp();
     fs.close();
     std::cout << "rendered " << name << std::endl;
 }
 
+void justRender(std::string name) {
+    render(name, Scene::getScene(name));
+}
+
 int main() {
-    for(auto it=Scene::getScenes()->begin(); it!=Scene::getScenes()->end(); ++it) render(it->first, it->second);
+    justRender("scene 8");
+    //for(auto it=Scene::getScenes()->begin(); it!=Scene::getScenes()->end(); ++it) render(it->first, it->second);
     return 0;
 }
-*/
+//*/
 
 
 int main(int argc, char *argv[])
@@ -36,3 +44,4 @@ int main(int argc, char *argv[])
 
     return app.exec();
 }
+//*/
