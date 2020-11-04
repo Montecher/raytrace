@@ -25,7 +25,9 @@ Box::Box(double xa, double ya, double za, double xb, double yb, double zb) {
     this->b = Vec3(std::max(xa, xb), std::max(ya, yb), std::max(za, zb));
 }
 
-
+Object* Box::clone() const {
+    return new Box(a, b);
+}
 
 double Box::distance_to(const Vec3& point) const {
     return std::max(

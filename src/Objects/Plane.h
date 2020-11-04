@@ -34,6 +34,7 @@ public:
      */
     Plane(double x, double y, double z, double offset);
 
+    virtual Object* clone() const;
     virtual double distance_to(const Vec3&) const;
     virtual Vec3 normal_at(const Vec3&) const;
 };

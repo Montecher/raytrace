@@ -49,6 +49,7 @@ public:
      */
     Intersection(const Object* obj1, const Object* obj2, const Object* obj3, const Object* obj4);
 
+    virtual Object* clone() const;
     virtual double distance_to(const Vec3&) const;
     virtual const Material* get_intersecting(const Vec3&) const;
     virtual Vec3 normal_at(const Vec3&) const;

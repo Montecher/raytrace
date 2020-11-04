@@ -47,6 +47,7 @@ public:
      */
     Torus(double x, double y, double z, double radius, double thickness);
 
+    virtual Object* clone() const;
     virtual double distance_to(const Vec3&) const;
 };
 

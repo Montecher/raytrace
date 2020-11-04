@@ -8,6 +8,10 @@ Scaling::Scaling(const Object* obj, const double factor) : Unop(obj) {
     this->factor = factor;
 }
 
+Object* Scaling::clone() const {
+    return new Scaling(obj->clone(), factor);
+}
+
 double Scaling::distance_to(const Vec3& point) const {
     return obj->distance_to(point/factor) * factor;
 }

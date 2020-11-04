@@ -6,6 +6,10 @@ AffineTransform::AffineTransform(Object* obj, const Mat3& m, const Vec3& d) : Un
     this->d = d;
 }
 
+Object* AffineTransform::clone() const {
+    return new AffineTransform(obj->clone(), m, d);
+}
+
 double AffineTransform::distance_to(const Vec3& point) const {
     return this->obj->distance_to(this->i * point - d);
 }

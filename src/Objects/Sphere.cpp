@@ -16,6 +16,10 @@ Sphere::Sphere(double x, double y, double z, double radius) {
     this->radius = radius;
 }
 
+Object* Sphere::clone() const {
+    return new Sphere(center, radius);
+}
+
 Sphere::~Sphere() {}
 
 double Sphere::distance_to(const Vec3& point) const {

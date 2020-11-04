@@ -6,6 +6,10 @@ Union::Union(const Object* obj1, const Object* obj2, const Object* obj3) : Binop
 
 Union::Union(const Object* obj1, const Object* obj2, const Object* obj3, const Object* obj4) : Binop(new Union(obj1, obj2), new Union(obj3, obj4)) {}
 
+Object* Union::clone() const {
+    return new Union(obj1->clone(), obj2->clone());
+}
+
 double Union::distance_to(const Vec3& point) const {
     return std::min(obj1->distance_to(point), obj2->distance_to(point));
 }

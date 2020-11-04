@@ -10,6 +10,13 @@
  */
 class Negation: public Unop {
 public:
+    /**
+     * \brief Negation constructor
+     * \param obj the object to negate
+     */
+    Negation(Object* obj);
+
+    virtual Object* clone() const;
     virtual double distance_to(const Vec3&) const;
     virtual const Material* get_intersecting(const Vec3&) const;
 };

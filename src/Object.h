@@ -20,6 +20,11 @@ public:
     virtual ~Object() {};
 
     /**
+     * Object clone
+     */
+    virtual Object* clone() const = 0;
+
+    /**
      * \brief Computes the distance to some point in space.
      *
      * This function computes a minimal distance between the Object itself and the specified point.

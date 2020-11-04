@@ -18,6 +18,7 @@ public:
      */
     Exclusion(const Object* obj1, const Object* obj2);
 
+    virtual Object* clone() const;
     virtual double distance_to(const Vec3&) const;
     virtual const Material* get_intersecting(const Vec3&) const;
 };

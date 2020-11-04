@@ -19,6 +19,10 @@ Torus::Torus(double x, double y, double z, double radius, double thickness) {
     this->thickness = thickness;
 }
 
+Object* Torus::clone() const {
+    return new Torus(center, radius, thickness);
+}
+
 double Torus::distance_to(const Vec3& point) const {
     double dX = point.get_x() - center.get_x();
     double dY = point.get_y() - center.get_y();

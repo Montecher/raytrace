@@ -15,6 +15,10 @@ Plane::Plane(double x, double y, double z, double offset) {
     this->offset = offset/norm;
 }
 
+Object* Plane::clone() const {
+    return new Plane(normal, offset);
+}
+
 double Plane::distance_to(const Vec3& point) const {
     return point * normal + offset;
 }

@@ -22,6 +22,7 @@ public:
      */
     Scaling(const Object* obj, const double factor);
 
+    virtual Object* clone() const;
     virtual double distance_to(const Vec3&) const;
     virtual const Material* get_intersecting(const Vec3&) const;
 };

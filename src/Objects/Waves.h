@@ -10,6 +10,7 @@
  */
 class Waves: public Object {
 public:
+    virtual Object* clone() const;
     virtual double distance_to(const Vec3&) const;
     virtual Vec3 normal_at(const Vec3&) const;
 };

@@ -146,14 +146,14 @@ static Object* sceneB() {
 
     // constructing poles
     Object* x_pole = new Cylinder({0, 0, 0}, 0.5, 1);
-    Object* y_pole = new LinearTransform(x_pole, LinearTransform::swapYZ);
-    Object* z_pole = new LinearTransform(x_pole, LinearTransform::swapXZ);
+    Object* y_pole = new LinearTransform(x_pole->clone(), LinearTransform::swapYZ);
+    Object* z_pole = new LinearTransform(x_pole->clone(), LinearTransform::swapXZ);
     Object* poles = new Union(x_pole, y_pole, z_pole);
 
     // carving the crust
     Object* holed_crust = new WithMaterial(new LinearTransform(new Exclusion(crust, poles), LinearTransform::rotate(.5, .5, .5) * 2), &Material::blue);
-    Object* holed_crust2 = new WithMaterial(new LinearTransform(new Exclusion(crust, poles), LinearTransform::rotate(.5, .5, .5) * 1.5), &Material::white);
-    Object* holed_crust3 = new WithMaterial(new LinearTransform(new Exclusion(crust, poles), LinearTransform::rotate(.5, .5, .5) * 1), &Material::red);
+    Object* holed_crust2 = new WithMaterial(new LinearTransform(new Exclusion(crust->clone(), poles->clone()), LinearTransform::rotate(.5, .5, .5) * 1.5), &Material::white);
+    Object* holed_crust3 = new WithMaterial(new LinearTransform(new Exclusion(crust->clone(), poles->clone()), LinearTransform::rotate(.5, .5, .5) * 1), &Material::red);
 
     Object* light = new WithMaterial(new Plane(0, 0, -1, 8), &Material::lightsource);
 

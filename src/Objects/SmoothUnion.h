@@ -58,6 +58,7 @@ public:
      */
     SmoothUnion(const Object* obj1, const Object* obj2, const Object* obj3, const Object* obj4, double r);
 
+    virtual Object* clone() const;
     virtual double distance_to(const Vec3& point) const;
     virtual const Material* get_intersecting(const Vec3& point) const;
     virtual Vec3 normal_at(const Vec3& point) const;

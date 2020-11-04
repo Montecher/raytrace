@@ -4,6 +4,10 @@ WithMaterial::WithMaterial(const Object* obj, const Material* material) : Unop(o
     this->material = material;
 }
 
+Object* WithMaterial::clone() const {
+    return new WithMaterial(obj->clone(), material);
+}
+
 double WithMaterial::distance_to(const Vec3& point) const {
     return obj->distance_to(point);
 }

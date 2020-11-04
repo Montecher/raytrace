@@ -20,6 +20,10 @@ Cylinder::Cylinder(double x, double y, double z, double radius, double len) {
     this->len = len;
 }
 
+Object* Cylinder::clone() const {
+    return new Cylinder(center, radius, len);
+}
+
 Cylinder::~Cylinder() {}
 
 double Cylinder::distance_to(const Vec3& point) const {

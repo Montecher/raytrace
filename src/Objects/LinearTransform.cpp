@@ -5,6 +5,10 @@ LinearTransform::LinearTransform(Object* obj, const Mat3& m) : Unop(obj) {
     this->i = m.invert();
 }
 
+Object* LinearTransform::clone() const {
+    return new LinearTransform(obj->clone(), m);
+}
+
 double LinearTransform::distance_to(const Vec3& point) const {
     return this->obj->distance_to(this->i * point);
 }

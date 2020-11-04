@@ -16,6 +16,10 @@ SmoothUnion::SmoothUnion(const Object* obj1, const Object* obj2, const Object* o
     this->r = r;
 }
 
+Object* SmoothUnion::clone() const {
+    return new SmoothUnion(obj1->clone(), obj2->clone(), r);
+}
+
 double SmoothUnion::distance_to(const Vec3& point) const {
     double dt1 = obj1->distance_to(point);
     double dt2 = obj2->distance_to(point);
