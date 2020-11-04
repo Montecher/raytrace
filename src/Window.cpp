@@ -33,7 +33,6 @@ Window::Window() : QWidget() {
 
     setLayout(layout);
 
-    connect(sceneSelect, SIGNAL(activated(int)), this, SLOT(test(int)));
     connect(sceneSelect, SIGNAL(activated(int)), this, SLOT(loadScene(int)));
     connect(toggleRealistic, SIGNAL(toggled(bool)), this, SLOT(createImage()));
     connect(this, SIGNAL(showImage(QPixmap)), label, SLOT(setPixmap(QPixmap)));
