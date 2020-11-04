@@ -138,6 +138,28 @@ static Object* sceneA() {
     return new Union(uvsource, lightsource, sphere, floor);
 }
 
+static Object* sceneB() {
+    // constructing crust
+    Object* bouboule = new Sphere();
+    Object* carving = new Sphere({0, 0, 0}, 0.8);
+    Object* crust = new Exclusion(bouboule, carving);
+
+    // constructing poles
+    Object* x_pole = new Cylinder({0, 0, 0}, 0.5, 1);
+    Object* y_pole = new LinearTransform(x_pole, LinearTransform::swapYZ);
+    Object* z_pole = new LinearTransform(x_pole, LinearTransform::swapXZ);
+    Object* poles = new Union(x_pole, y_pole, z_pole);
+
+    // carving the crust
+    Object* holed_crust = new WithMaterial(new LinearTransform(new Exclusion(crust, poles), LinearTransform::rotate(.5, .5, .5)), &Material::blue);
+    Object* holed_crust2 = new WithMaterial(new LinearTransform(new Exclusion(crust, poles), LinearTransform::rotate(.5, .5, .5) * 0.66), &Material::white);
+    Object* holed_crust3 = new WithMaterial(new LinearTransform(new Exclusion(crust, poles), LinearTransform::rotate(.5, .5, .5) * 0.33), &Material::red);
+
+    Object* light = new WithMaterial(new Plane(0, 0, -1, 8), &Material::lightsource);
+
+    return new Union(holed_crust, holed_crust2, holed_crust3, light);
+}
+
 static Cam normalCam;
 
 std::map<std::string, Scene*>* Scene::getScenes() {
@@ -155,6 +177,7 @@ std::map<std::string, Scene*>* Scene::getScenes() {
         scenes["scene 8"] = new Scene(&normalCam, scene8());
         scenes["scene 9"] = new Scene(&normalCam, scene9());
         scenes["scene A"] = new Scene(&normalCam, sceneA());
+        scenes["scene B"] = new Scene(&normalCam, sceneB());
     }
     return &scenes;
 }
