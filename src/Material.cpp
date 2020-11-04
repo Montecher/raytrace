@@ -1,31 +1,58 @@
 #include "Material.h"
 
-Material Material::lightsource = Material(Vec3::O,                Vec3(.75, .75, .75), STOP      );
-Material Material::white       = Material(Vec3(.75,  .75,  .75),  Vec3::O,             DIFFUSE   );
-Material Material::glass       = Material(Vec3(.999, .999, .999), Vec3::O,             REFRACTIVE);
-Material Material::mirror      = Material(Vec3(.999, .999, .999), Vec3::O,             REFLECTIVE);
-Material Material::red         = Material(Vec3(.75,  .25,  .25),  Vec3::O,             DIFFUSE   );
-Material Material::green       = Material(Vec3(.25,  .75,  .25),  Vec3::O,             DIFFUSE   );
-Material Material::blue        = Material(Vec3(.25,  .25,  .75),  Vec3::O,             DIFFUSE   );
+Material Material::lightsource = Material(Light::black,       {.75, .75, .75, 0}, STOP      );
+Material Material::white       = Material(Light::white*.75,   Light::black,       DIFFUSE   );
+Material Material::mirror      = Material(Light::white*.999,  Light::black,       REFLECTIVE);
+Material Material::red         = Material({.75, .25, .25, 0}, Light::black,       DIFFUSE   );
+Material Material::green       = Material({.25, .75, .25, 0}, Light::black,       DIFFUSE   );
+Material Material::blue        = Material({.25, .25, .75, 0}, Light::black,       DIFFUSE   );
 
-Material::Material(const Vec3& color, const Vec3& emission, ReflectionType reflection) {
+Material Material::uvlight     = Material({.125, 0, .25, 0}, {0, 0, 0, 1}, DIFFUSE);
+Material Material::fluorescent = Material({
+    .25, .00, .00, .00,
+    .00, .25, .00, .00,
+    .00, .00, .25, .00,
+    .25, .75, .00, .00
+});
+
+Material::Material(const Diffusion& color, const Light& emission, ReflectionType reflection) {
     _color = color;
     _emission = emission;
     _reflection = reflection;
 }
 
-Material::Material(const Vec3& color, const Vec3& emission) {
+Material::Material(const Light& color, const Light& emission, ReflectionType reflection) {
+    _color = Diffusion(color);
+    _emission = emission;
+    _reflection = reflection;
+}
+
+Material::Material(const Diffusion& color, const Light& emission) {
     _color = color;
     _emission = emission;
     _reflection = DIFFUSE;
 }
 
-Material::Material() {
-    _color = Vec3(1, 1, 1);
-    _emission = Vec3::O;
+Material::Material(const Light& color, const Light& emission) {
+    _color = Diffusion(color);
+    _emission = emission;
     _reflection = DIFFUSE;
 }
 
-std::ostream& operator<<(std::ostream& out, const Material& m) {
-    return out << "Material(color=" << m._color << ", emission=" << m._emission << ", reflection=" << m._reflection <<")";
+Material::Material(const Diffusion& color) {
+    _color = color;
+    _emission = Light::black;
+    _reflection = DIFFUSE;
+}
+
+Material::Material(const Light& color) {
+    _color = Diffusion(color);
+    _emission = Light::black;
+    _reflection = DIFFUSE;
+}
+
+Material::Material() {
+    _color = Diffusion(Light::white);
+    _emission = Light::black;
+    _reflection = DIFFUSE;
 }

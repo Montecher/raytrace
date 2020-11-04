@@ -4,13 +4,8 @@
 #include <cmath>
 #include <cstdlib>
 
-static inline double clamp(double v, double min=0., double max=1.) {
-    if(v<min) return min;
-    if(v>max) return max;
-    return v;
-}
-static inline int toInt(double v) {
-    return (int) (pow(clamp(v, 0., 1.), 1/2.2) * 255. + .5);
+static inline double clamp(double v, double min, double max) {
+    return v<min ? min : v>max ? max : v;
 }
 
 Cam::Cam() {
@@ -98,13 +93,13 @@ Image Cam::render_shaded(Object* scene, int w, int h) const {
 
 
 // shamelessly stolen from https://www.kevinbeason.com/smallpt/
-static Vec3 radiance(const Ray &r, Object* scene, int depth, unsigned short *Xi) {
+static Light radiance(const Ray &r, Object* scene, int depth, unsigned short *Xi) {
     double t = MAX_DIST;
     Vec3 impact, normal;
 
     // no hit -> black
     if(!r.intersect(scene, &t, &impact, &normal)) {
-        return Vec3::O;
+        return Light::black;
     }
 
     const Material* material = scene->get_intersecting(impact);
@@ -112,11 +107,12 @@ static Vec3 radiance(const Ray &r, Object* scene, int depth, unsigned short *Xi)
     Vec3 x = impact;
     Vec3 n = normal;
     Vec3 nl = normal; // or -normal, I don't really understand it
-    Vec3 f = material->color();
+    Diffusion color = material->color();
+    Light emission = material->emission();
 
     // max reflection
     if(--depth<=0) {
-        return material->color();
+        return emission;
 
         // the following seemed to just go on forever, so I commented it out
         /*
@@ -135,20 +131,20 @@ static Vec3 radiance(const Ray &r, Object* scene, int depth, unsigned short *Xi)
         Vec3 u = ( (fabs(w.get_x())>.1 ? Vec3::Y : Vec3::X) ^ w ).normal();
         Vec3 v = w^u;
         Vec3 d = (u*cos(r1)*r2s + v*sin(r1)*r2s + w*sqrt(1-r2)).normal();
-        return  material->emission() + f.mult(radiance(Ray(x, d), scene, depth, Xi));
+        return emission.add(color.apply(radiance(Ray(x, d), scene, depth, Xi)));
     } else if (material->reflection() == REFLECTIVE) {
         // reflection
-        return material->emission() + f.mult(radiance(Ray(x, r.get_dir()-n*2*(n*r.get_dir())), scene, depth, Xi));
+        return emission.add(color.apply(radiance(Ray(x, r.get_dir()-n*2*(n*r.get_dir())), scene, depth, Xi)));
     } else if (material->reflection() == STOP) {
         // flat shading
-        return material->emission();
+        return emission;
     } else {
         // refraction
 
         // until I find a clean way to do this, it's just not there
         // I'll need to find a way to make a ray go through an object and detect the end of that
         // pretty sure this isn't possible when working with unions and signed distance field
-        return Vec3::O;
+        return Light::black;
 
         // do something about this at some point
         /*
@@ -174,21 +170,21 @@ Image Cam::render_realistic(Object* scene, int w, int h, int samples, int depth)
 #pragma omp parallel for
     // loop over pixels, use multithread on rows
     for(int y=0; y<h; y++) {
-        for(unsigned short x=0; x<w; x++) {
+        for(int  x=0; x<w; x++) {
 
             unsigned short Xi[3] = {0, 0, (unsigned short) (y*y*y+x*x*x)};
-            Vec3 r = Vec3::O;
+            Light sc[2][2];
 
             // loop over subpixels
             for(int sy=0; sy<2; sy++) {
                 for(int sx=0; sx<2; sx++) {
 
-                    Vec3 sc = Vec3::O;
+                    sc[sx][sy] = Light::black;
 
                     // loop over samples
                     for(int s=0; s<samples; s++) {
                         Ray ray = this->ray(x*2+sx, y*2+sy, w*2, h*2);
-                        sc = sc + radiance(ray, scene, depth, Xi) * 1./samples;
+                        sc[sx][sy] = sc[sx][sy].add(radiance(ray, scene, depth, Xi) * 1./samples);
 
                         // maybe do something about this at some point
                         /*
@@ -200,14 +196,22 @@ Image Cam::render_realistic(Object* scene, int w, int h, int samples, int depth)
                         r = r + radiance(Ray(cam.o+d*140,d.norm()),0,Xi)*(1./samps);
                         */
                     }
-
-                    // merge subpixel value
-                    r = r + Vec3(clamp(sc.get_x()),clamp(sc.get_y()),clamp(sc.get_z()))*.25;
                 }
             }
 
             // merge pixel value
-            img.pixel(x, y, {(unsigned char) toInt(r.get_x()), (unsigned char) toInt(r.get_y()), (unsigned char) toInt(r.get_z())});
+            int r=0, g=0, b=0;
+            for(int sy=0; sy<2; sy++) for(int sx=0; sx<2; sx++) {
+                rgb_color sp = sc[sx][sy].rgb();
+                r += sp.r;
+                g += sp.g;
+                b += sp.b;
+            }
+
+#define uc (unsigned char)
+            rgb_color c = { uc(r/4), uc(g/4), uc(b/4) };
+
+            img.pixel(x, y, c);
         }
     }
 
