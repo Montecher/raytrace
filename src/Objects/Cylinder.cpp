@@ -8,8 +8,8 @@ Cylinder::Cylinder() {
     this->len = 1;
 }
 
-Cylinder::Cylinder(Vec3 vec3, double radius, double len) {
-    this->center = vec3;
+Cylinder::Cylinder(Vec3 center, double radius, double len) {
+    this->center = center;
     this->radius = radius;
     this->len = len;
 }
