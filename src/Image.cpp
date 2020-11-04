@@ -52,6 +52,7 @@ std::string Image::to_raw() {
     return render;
 }
 
+/** \cond */
 #ifdef _MVC_VER
 #pragma pack(push, 1)
 #endif
@@ -79,6 +80,7 @@ typedef union {
     bmp_header h;
     char bytes[26];
 } bmp_header_bytes;
+/** \endcond */
 
 std::string Image::to_bmp() {
     std::stringstream render;
