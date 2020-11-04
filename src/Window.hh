@@ -43,8 +43,6 @@ private slots:
      */
     void loadScene(int sceneNb);
 
-    void test(int);
-
     /**
      * @brief Image renderer
      *

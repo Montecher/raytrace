@@ -55,10 +55,6 @@ void Window::setImage(Image img) {
     emit showImage(QPixmap::fromImage(*image));
 }
 
-void Window::test(int input) {
-    qDebug() << input;
-}
-
 void Window::loadScene(int sceneNb) {
     scene = Scene::getScenes()->at(std::string(sceneSelect->itemText(sceneNb).toUtf8().constData()));
     createImage();
