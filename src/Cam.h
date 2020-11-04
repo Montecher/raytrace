@@ -42,8 +42,8 @@ private:
      * @param w width of the Image.
      * @param h height of the Image.
      * @param t distance to object (give the max distance to is, and returns the real distance).
-     * @param impact returns the impact Vec3.
-     * @param normal return the normal Vec3.
+     * @param impact returns the impact point.
+     * @param normal return the normal Vec3 ant the impact point.
      * @param obj return the material that was hit.
      * @return if it touched something.
      */

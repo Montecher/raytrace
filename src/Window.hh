@@ -51,7 +51,12 @@ private slots:
      * Creates the image with the scene and camera stored in the window object attributes with the render mode selected.
      */
     void createImage();
-    void setImage(Image);
+
+    /**
+     * \brief changes the Image that is selected.
+     * @param image new Image used.
+     */
+    void setImage(Image image);
 
 signals:
     /**
