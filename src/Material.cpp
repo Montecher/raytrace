@@ -6,6 +6,7 @@ Material Material::mirror      = Material(Light::white*.999,  Light::black,     
 Material Material::red         = Material({.75, .25, .25, 0}, Light::black,       DIFFUSE   );
 Material Material::green       = Material({.25, .75, .25, 0}, Light::black,       DIFFUSE   );
 Material Material::blue        = Material({.25, .25, .75, 0}, Light::black,       DIFFUSE   );
+Material Material::black       = Material(Light::black, Light::black, STOP);
 
 Material Material::uvlight     = Material({.125, 0, .25, 0}, {0, 0, 0, 1}, DIFFUSE);
 Material Material::fluorescent = Material({

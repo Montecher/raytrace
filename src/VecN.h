@@ -1,24 +1,75 @@
 #ifndef __VECN_H
 #define __VECN_H
 
+/**
+ * \class Vec
+ * @tparam N dimension number.
+ * \brief N-dimensional vector.
+ */
 template <unsigned int N>
 class Vec {
 protected:
-    double _v[N];
+    double _v[N];  ///< Vec field.
 
 public:
+    /**
+     * \brief default Vec constructor
+     * Initializes all values at 0.
+     */
     Vec();
-    Vec(const double[N]);
 
-    double v(unsigned int) const;
+    /**
+     * \brief Vec constructor with an initialisation list.
+     * @param v initialisation list.
+     */
+    Vec(const double v[N]);
 
-    Vec<N> operator + (const Vec<N>&) const;
-    Vec<N> operator - (const Vec<N>&) const;
-    Vec<N> operator * (const Vec<N>&) const;
+    /**
+     * \brief field value getter.
+     * \param i field index.
+     * @return field value.
+     */
+    double v(unsigned int i) const;
 
-    Vec<N> operator * (double) const;
-    Vec<N> operator / (double) const;
+    /**
+     * \brief addition operator between 2 Vec.
+     * @param o other Vec.
+     * @return resulting Vec.
+     */
+    Vec<N> operator + (const Vec<N>& o) const;
 
+    /**
+     * \brief subtraction operator between 2 Vec.
+     * @param o other Vec.
+     * @return resulting Vec.
+     */
+    Vec<N> operator - (const Vec<N>& o) const;
+
+    /**
+     * \brief term to term multiplication between 2 Vec.
+     * @param o other Vec.
+     * @return resulting Vec.
+     */
+    Vec<N> operator * (const Vec<N>& o) const;
+
+    /**
+     * \brief scalar multiplication.
+     * \param o scalar used.
+     * @return resulting Vec
+     */
+    Vec<N> operator * (double o) const;
+
+    /**
+     * \brief scalar division.
+     * \param o scalar used.
+     * @return resulting Vec
+     */
+    Vec<N> operator / (double o) const;
+
+    /**
+     * \brief Vec negation.
+     * @return Vec with negated coordinates.
+     */
     Vec<N> operator - () const;
 };
 
