@@ -38,7 +38,10 @@ public:
      * @return scaling matrix.
      */
     static Mat3 scale(double x, double y, double z);
-    static Mat3 swapXY, swapXZ, swapYZ;
+
+    static Mat3 swapXY;  ///< swaps X and Y values
+    static Mat3 swapXZ;  ///< swaps X and Z values
+    static Mat3 swapYZ;  ///< swaps Y and Z values
 
     /**
      * \brief rotation on the X axis by theta.

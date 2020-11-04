@@ -183,11 +183,8 @@ public:
 
     // invert
     /**
-     * \brief coordinate value inversion
-     *
-     * Unary operator that is responsible of the inversion of all the coordinate values.
-     *
-     * @return Vec3 with inverted coordinates.
+     * \brief Vec3 negation.
+     * @return Vec3 with negated coordinates.
      */
     Vec3 operator - ();
 

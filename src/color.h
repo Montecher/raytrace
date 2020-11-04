@@ -6,9 +6,9 @@
  * \brief rgb color definition.
  */
 typedef struct {
-    unsigned char r;
-    unsigned char g;
-    unsigned char b;
+    unsigned char r;  ///< red component.
+    unsigned char g;  ///< green component.
+    unsigned char b;  ///< blue component.
 } rgb_color;
 
 /**
@@ -16,9 +16,9 @@ typedef struct {
  * \brief hsv color definition.
  */
 typedef struct {
-    double h;
-    double s;
-    double v;
+    double h;  ///< hue component.
+    double s;  ///< saturation component.
+    double v;  ///< value component.
 } hsv_color;
 
 /**

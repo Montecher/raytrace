@@ -27,8 +27,8 @@ public:
     };
 
 protected:
-    const Object* obj1;
-    const Object* obj2;
+    const Object* obj1;  ///< first Object of the operation.
+    const Object* obj2;  ///< second Object of the operation.
 };
 
 #endif

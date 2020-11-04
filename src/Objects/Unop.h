@@ -25,7 +25,7 @@ public:
     };
 
 protected:
-    const Object* obj;
+    const Object* obj;  ///< Object affected by operation.
 };
 
 #endif

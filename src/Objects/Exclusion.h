@@ -11,6 +11,11 @@
  */
 class Exclusion: public Binop {
 public:
+    /**
+     * \brief Exclusion constructor.
+     * @param obj1 main Object.
+     * @param obj2 Object to be removed.
+     */
     Exclusion(const Object* obj1, const Object* obj2);
 
     virtual double distance_to(const Vec3&) const;

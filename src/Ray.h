@@ -57,7 +57,7 @@ public:
 
     /**
      * \brief description of a Ray object.
-     * @param out ostream operator where the Ray info is sent
+     * @param output ostream operator where the Ray info is sent
      * @param ray Ray object being described.
      * @return ostream loaded with the Ray info.
      */
