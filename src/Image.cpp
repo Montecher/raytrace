@@ -57,16 +57,16 @@ std::string Image::to_raw() {
 #pragma pack(push, 1)
 #endif
 typedef struct {
-    uint8_t magic[2]; // {'B', 'M'}
-    uint32_t file_size; // always 26 + h*row_size
-    uint16_t reserved0; // 0
-    uint16_t reserved1; // 0
-    uint32_t data_offset; // always 26
-    uint32_t dib_header_size; // always 12
+    uint8_t magic[2]; ///< {'B', 'M'}
+    uint32_t file_size; ///< always 26 + h*row_size
+    uint16_t reserved0; ///< 0
+    uint16_t reserved1; ///< 0
+    uint32_t data_offset; ///< always 26
+    uint32_t dib_header_size; ///< always 12
     uint16_t width;
     uint16_t height;
-    uint16_t cplanes; // always 1
-    uint16_t bpp; // always 24
+    uint16_t cplanes; ///< always 1
+    uint16_t bpp; ///< always 24
 }
 #ifdef __GNUC__
 __attribute__((packed))

@@ -3,6 +3,7 @@
 
 #define EPSILON 0.001
 #define MAX_DIST 50.
+#define PI 3.1415
 
 #define WIDTH 480
 #define HEIGHT 480

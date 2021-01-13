@@ -23,12 +23,13 @@ void render(std::string name, Scene* scene) {
 }
 
 void justRender(std::string name) {
-    render(name, Scene::getScene(name));
+    render(name, Scene::getScene(name));k
 }
 
 int main() {
-    justRender("scene A");
-    for(auto it=Scene::getScenes()->begin(); it!=Scene::getScenes()->end(); ++it) render(it->first, it->second);
+    justRender("scene C");
+    justRender("scene D");
+    justRender("scene E");
     return 0;
 }
 //*/

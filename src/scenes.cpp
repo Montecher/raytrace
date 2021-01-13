@@ -2,6 +2,7 @@
 
 #include "Objects.h"
 #include "Image.h"
+#include "constants.h"
 
 Scene::Scene(Cam* cam, Object* scene) {
     _cam = cam;
@@ -160,6 +161,43 @@ static Object* sceneB() {
     return new Union(holed_crust, holed_crust2, holed_crust3, light);
 }
 
+static Object* sceneC() {
+    static Material grey = Material({0.25, 0.25, 0.25, 0.25});
+    Object* bg = new WithMaterial(new Plane(-1, 0, 1, 2), &grey);
+    Object* bouboule = new WithMaterial(new Sphere(0, 0, 0, 2), &Material::red);
+    Object* light = new WithMaterial(new Plane(0, 0, -1, 8), &Material::lightsource);
+
+    return new Union(bg, bouboule, light);
+}
+
+static Object* sceneD() {
+    static Material grey = Material({0.25, 0.25, 0.25, 0.25});
+    Object* bg = new WithMaterial(new Plane(-1, 0, 1, 2), &grey);
+    Object* donut = new WithMaterial(new Torus({0, 0, 0}, 1.8, 0.6), &Material::red);
+    Object* light = new WithMaterial(new Plane(0, 0, -1, 8), &Material::lightsource);
+
+    return new Union(bg, donut, light);
+}
+
+static Object* sceneE() {
+    static Material grey = Material({0.25, 0.25, 0.25, 0.25});
+    Object* bg = new WithMaterial(new Plane(-1, 0, 1, 2), &grey);
+    Object* boiboite = new LinearTransform(new Box({-1, -1, -1}, {1, 1, 1}), LinearTransform::rotateZ(-PI / 6) * 1.25);
+    Object* box = new WithMaterial(boiboite, &Material::red);
+    Object* light = new WithMaterial(new Plane(0, 0, -1, 8), &Material::lightsource);
+
+    return new Union(bg, box, light);
+}
+
+static Object* sceneF() {
+    static Material full_white_light = Material({1, 1, 1, 1}, {1, 1, 1, 1}, STOP);
+    Object* light_box = new WithMaterial(new Negation(new Sphere({-1.5, -1.5, -1.5}, 10)), &full_white_light);
+
+    Object* black_hole = new WithMaterial(new Sphere({0, 0, 0}, 2), &Material::black);
+
+    return new Union(light_box, black_hole);
+}
+
 static Cam normalCam;
 
 std::map<std::string, Scene*>* Scene::getScenes() {
@@ -178,6 +216,10 @@ std::map<std::string, Scene*>* Scene::getScenes() {
         scenes["scene 9"] = new Scene(&normalCam, scene9());
         scenes["scene A"] = new Scene(&normalCam, sceneA());
         scenes["scene B"] = new Scene(&normalCam, sceneB());
+        scenes["scene C"] = new Scene(&normalCam, sceneC());
+        scenes["scene D"] = new Scene(&normalCam, sceneD());
+        scenes["scene E"] = new Scene(&normalCam, sceneE());
+        scenes["scene F"] = new Scene(&normalCam, sceneF());
     }
     return &scenes;
 }
