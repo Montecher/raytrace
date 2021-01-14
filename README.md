@@ -5,7 +5,7 @@ The name comes from when it was actually raytracing
 
 ## Examples
 See `prod` folder  
-![render 3](prod/render-1080p-500rpp-10d/scene 4.png)
+![render 4](prod/render-1080p-500rpp-10d/scene4.png)
 
 ## Building
 Requires a C++ compiler with at least c++11 support, and Qt (both the headers and the libraries)
